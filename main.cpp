@@ -1,6 +1,10 @@
 #include <iostream>
-#include <GLFw/glfw3.h>
+#include <GLFW/glfw3.h>
+#include "GLFW.h"
 
 int main() {
-    return 0;
+    GLFW graphic_context(1200, 800, "Test");
+
+    graphic_context.render();
+    return (0);
 }
