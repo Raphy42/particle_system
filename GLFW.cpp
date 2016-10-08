@@ -11,22 +11,69 @@ void GLFW::init() const
         exit(EXIT_FAILURE);
 }
 
-static void error_callback(int errcode, const char *message)
+void GLFW::post_init()
 {
-    std::cout << message << ": " << errcode << std::endl;
+    glfwGetFramebufferSize(_window, &_framebuffer_width, &_framebuffer_height);
 }
 
-GLFW::GLFW(int _width, int _height, const char *title) : _window(nullptr), _width(_width), _height(_height)
+extern "C" {
+    static void     error_callback(int errcode, const char *message)
+    {
+        std::cout << message << ": " << errcode << std::endl;
+    }
+
+    static void     key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+    {
+        if (action == GLFW_PRESS)
+            switch (key)
+            {
+                case GLFW_KEY_ESCAPE:
+                    glfwSetWindowShouldClose(window, GL_TRUE);
+                default:
+                    break ;
+            }
+    }
+}
+
+/**
+ * GLFW constructor
+ * @param _width Window width
+ * @param _height Window height
+ * @param title
+ * @return
+ */
+GLFW::GLFW(int width, int height, const char *title) :
+        _window(nullptr), _width(width), _height(height), _title(title)
 {
     this->init();
     glfwSetErrorCallback(error_callback);
-    assert(_window = glfwCreateWindow(_width, _height, title, nullptr, nullptr));
+
+//    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+//    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+//    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+//    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    assert(_window = glfwCreateWindow(width, height, _title, nullptr, nullptr));
     glfwMakeContextCurrent(_window);
+    glfwSwapInterval(1);
+    glfwSetKeyCallback(_window, key_callback);
     printf("%s: %s\n", glGetString(GL_RENDERER), glGetString(GL_VERSION));
+    this->post_init();
+}
+
+int GLFW::should_exit()
+{
+    glfwPollEvents();
+    return (!glfwWindowShouldClose(_window));
 }
 
 void GLFW::render() const
 {
-    glClear(GL_COLOR_BUFFER_BIT);
     glfwSwapBuffers(_window);
+}
+
+GLFW::~GLFW()
+{
+    glfwDestroyWindow(_window);
+    glfwTerminate();
 }
