@@ -77,3 +77,8 @@ GLFW::~GLFW()
     glfwDestroyWindow(_window);
     glfwTerminate();
 }
+
+GLFW::GLFW() : _window(nullptr), _width(1200), _height(800), _title("Window")
+{
+
+}

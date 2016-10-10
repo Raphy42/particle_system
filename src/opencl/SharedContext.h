@@ -9,6 +9,7 @@
 #include <string.h>
 #include <iostream>
 #include <OpenGL/OpenGL.h>
+#include "utils.h"
 
 namespace OpenCL {
     class SharedContext {
@@ -18,6 +19,8 @@ namespace OpenCL {
 
         cl_context getContext() const;
         cl_command_queue getQueue() const;
+
+        void            BindKernel(std::string filename);
 
     private:
         void Init();
@@ -30,6 +33,7 @@ namespace OpenCL {
         cl_uint                     _numDevices;
         cl_context                  _context;
         cl_command_queue            _queue;
+        cl_program                  _program;
     };
 }
 

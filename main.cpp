@@ -1,10 +1,6 @@
 #include <iostream>
-#include "GLFW.h"
+#include "src/opengl/GLFW.h"
 #include "src/opencl/SharedContext.h"
-#include "src/opencl/utils.h"
-
-#define MESH_WIDTH 1200
-#define MESH_HEIGHT 800
 
 int main() {
 
@@ -12,6 +8,8 @@ int main() {
     OpenCL::SharedContext *context = new OpenCL::SharedContext();
 
     GLuint vbo;
+
+    context->BindKernel("sine_wave.cl");
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);

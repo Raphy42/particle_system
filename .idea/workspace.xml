@@ -39,16 +39,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33f20717-121e-4d5c-9aa8-c9bcccf58942" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sine_wave.ocl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/opencl/SharedContext.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/opencl/SharedContext.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/opencl/utils.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitmodules" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Core.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Core.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/opencl/utils.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/GLFW.cpp" afterPath="$PROJECT_DIR$/src/opengl/GLFW.cpp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/GLFW.h" afterPath="$PROJECT_DIR$/src/opengl/GLFW.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/sine_wave.ocl" afterPath="$PROJECT_DIR$/sine_wave.cl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particle_system" afterPath="$PROJECT_DIR$/particle_system" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/particle_system.iml" afterPath="$PROJECT_DIR$/.idea/particle_system.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GLFW.cpp" afterPath="$PROJECT_DIR$/GLFW.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GLFW.h" afterPath="$PROJECT_DIR$/GLFW.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/opencl/SharedContext.cpp" afterPath="$PROJECT_DIR$/src/opencl/SharedContext.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/opencl/SharedContext.h" afterPath="$PROJECT_DIR$/src/opencl/SharedContext.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/opencl/utils.h" afterPath="$PROJECT_DIR$/src/opencl/utils.h" />
     </list>
     <ignored path="particle_system.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,21 +73,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="74" selection-start-line="4" selection-start-column="74" selection-end-line="4" selection-end-column="74" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+            <state relative-caret-position="105">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -93,32 +88,10 @@
       <file leaf-file-name="SharedContext.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/opencl/SharedContext.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+            <state relative-caret-position="465">
+              <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
               <folding>
                 <element signature="e#135#161#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sine_wave.ocl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sine_wave.ocl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GLFW.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GLFW.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding>
-                <element signature="e#172#195#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -127,11 +100,10 @@
       <file leaf-file-name="SharedContext.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/opencl/SharedContext.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="96" column="75" selection-start-line="96" selection-start-column="75" selection-end-line="96" selection-end-column="75" />
+            <state relative-caret-position="315">
+              <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
               <folding>
-                <element signature="e#1249#1310#0" expanded="true" />
-                <element signature="e#2680#3899#0" expanded="true" />
+                <element signature="e#50#68#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,21 +112,66 @@
       <file leaf-file-name="utils.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/opencl/utils.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+            <state relative-caret-position="150">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <folding>
+                <element signature="e#115#141#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utils.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/opencl/utils.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="610">
+              <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GLFW.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GLFW.cpp">
+      <file leaf-file-name="Core.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Core.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+            <state relative-caret-position="135">
+              <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Core.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Core.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding>
+                <element signature="e#114#131#0" expanded="true" />
+                <marker date="1476135394000" expanded="true" signature="203:438" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GLFW.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="701">
+              <caret line="80" column="69" selection-start-line="80" selection-start-column="69" selection-end-line="80" selection-end-column="69" />
               <folding>
                 <element signature="e#49#68#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GLFW.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -188,9 +205,17 @@
         <option value="$PROJECT_DIR$/src/core/Context.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/opencl/Utils.h" />
+        <option value="$PROJECT_DIR$/src/opengl/GLFW.h" />
+        <option value="$PROJECT_DIR$/src/opengl/GLFW.cpp" />
+        <option value="$PROJECT_DIR$/src/ConfigLoader.h" />
+        <option value="$PROJECT_DIR$/src/INILoader.h" />
+        <option value="$PROJECT_DIR$/src/Core.cpp" />
+        <option value="$PROJECT_DIR$/src/Core.h" />
+        <option value="$PROJECT_DIR$/src/opencl/utils.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/src/opencl/utils.cpp" />
         <option value="$PROJECT_DIR$/src/opencl/SharedContext.cpp" />
         <option value="$PROJECT_DIR$/src/opencl/SharedContext.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -202,8 +227,7 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="962" />
-    <option name="width" value="958" />
+    <option name="width" value="1920" />
     <option name="height" value="1200" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -262,6 +286,38 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="particle_system" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="particle_system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opengl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="particle_system" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="particle_system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="opencl" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -280,6 +336,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/opengl" />
       <recent name="$PROJECT_DIR$/include" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -600,7 +657,10 @@
       <workItem from="1475152711507" duration="1709000" />
       <workItem from="1475775320062" duration="1319000" />
       <workItem from="1475779785496" duration="19510000" />
-      <workItem from="1475875759299" duration="8379000" />
+      <workItem from="1475875759299" duration="8905000" />
+      <workItem from="1475965981523" duration="2665000" />
+      <workItem from="1476056936262" duration="94000" />
+      <workItem from="1476134985656" duration="4454000" />
     </task>
     <task id="LOCAL-00001" summary="Added .gitignore">
       <created>1475779832428</created>
@@ -613,23 +673,22 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32033000" />
+    <option name="totallyTimeSpent" value="39772000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="962" y="0" width="958" height="1200" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40468583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283186" sideWeight="0.5021299" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283186" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19759825" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283186" sideWeight="0.4978701" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -637,6 +696,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -678,19 +738,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="17" />
+      <option name="time" value="22" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -701,41 +753,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sine_wave.ocl">
+    <entry file="file://$PROJECT_DIR$/sine_wave.cl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.h">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#172#195#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Context.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Context.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.cpp">
+    <entry file="file://$PROJECT_DIR$/Context.h" />
+    <entry file="file://$PROJECT_DIR$/Context.cpp" />
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
           <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
@@ -763,7 +797,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.cpp">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
@@ -791,7 +825,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.cpp">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -801,13 +835,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.h">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="24" column="37" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
-          <folding>
-            <element signature="e#172#195#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -829,7 +860,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.cpp">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -839,13 +870,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.h">
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#172#195#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -853,7 +881,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="710">
           <caret line="194" column="15" selection-start-line="194" selection-start-column="15" selection-end-line="194" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,9 +897,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11520">
           <caret line="816" column="16" selection-start-line="816" selection-start-column="16" selection-end-line="816" selection-end-column="16" />
-          <folding>
-            <element signature="e#152436#152437#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -881,308 +905,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="367">
           <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CGLContext.h" />
-    <entry file="file://$PROJECT_DIR$/include/cl.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193575">
-          <caret line="12905" column="17" selection-start-line="12905" selection-start-column="17" selection-end-line="12905" selection-end-column="17" />
-          <folding>
-            <element signature="e#4823#4940#0" expanded="false" />
-            <element signature="e#4981#5000#0" expanded="false" />
-            <element signature="e#5059#5081#0" expanded="false" />
-            <element signature="e#5167#5189#0" expanded="false" />
-            <element signature="e#5439#5462#0" expanded="false" />
-            <element signature="e#5782#5816#0" expanded="false" />
-            <element signature="e#6028#6073#0" expanded="false" />
-            <element signature="e#6188#6233#0" expanded="false" />
-            <element signature="e#6323#6342#0" expanded="false" />
-            <element signature="e#6365#6383#0" expanded="false" />
-            <element signature="e#6459#6479#0" expanded="false" />
-            <element signature="e#7058#7253#0" expanded="false" />
-            <element signature="e#7753#8931#0" expanded="false" />
-            <element signature="e#9070#9240#0" expanded="false" />
-            <element signature="e#15462#15538#0" expanded="false" />
-            <element signature="e#15721#16313#0" expanded="false" />
-            <element signature="e#16846#21459#0" expanded="false" />
-            <element signature="e#21634#30413#0" expanded="false" />
-            <element signature="e#30890#30967#0" expanded="false" />
-            <element signature="e#31192#31490#0" expanded="false" />
-            <element signature="e#31739#31843#0" expanded="false" />
-            <element signature="e#32085#32092#0" expanded="false" />
-            <element signature="e#33046#33076#0" expanded="false" />
-            <element signature="e#33297#33324#0" expanded="false" />
-            <element signature="e#34233#34260#0" expanded="false" />
-            <element signature="e#35302#35317#0" expanded="false" />
-            <element signature="e#35699#35714#0" expanded="false" />
-            <element signature="e#36459#36486#0" expanded="false" />
-            <element signature="e#37088#37100#0" expanded="false" />
-            <element signature="e#37487#37514#0" expanded="false" />
-            <element signature="e#47614#48094#0" expanded="false" />
-            <element signature="e#48145#48178#0" expanded="false" />
-            <element signature="e#48925#48980#0" expanded="false" />
-            <element signature="e#49056#49141#0" expanded="false" />
-            <element signature="e#49202#49291#0" expanded="false" />
-            <element signature="e#49348#49448#0" expanded="false" />
-            <element signature="e#49507#49594#0" expanded="false" />
-            <element signature="e#49642#49718#0" expanded="false" />
-            <element signature="e#49778#49866#0" expanded="false" />
-            <element signature="e#49919#50000#0" expanded="false" />
-            <element signature="e#50057#50142#0" expanded="false" />
-            <element signature="e#50204#50294#0" expanded="false" />
-            <element signature="e#50361#50456#0" expanded="false" />
-            <element signature="e#50525#50622#0" expanded="false" />
-            <element signature="e#50675#50756#0" expanded="false" />
-            <element signature="e#50818#50907#0" expanded="false" />
-            <element signature="e#50968#51057#0" expanded="false" />
-            <element signature="e#51113#51197#0" expanded="false" />
-            <element signature="e#51243#51317#0" expanded="false" />
-            <element signature="e#51365#51441#0" expanded="false" />
-            <element signature="e#51497#51581#0" expanded="false" />
-            <element signature="e#51635#51717#0" expanded="false" />
-            <element signature="e#51769#51796#0" expanded="false" />
-            <element signature="e#51958#51988#0" expanded="false" />
-            <element signature="e#52278#52323#0" expanded="false" />
-            <element signature="e#52639#52681#0" expanded="false" />
-            <element signature="e#52920#52977#0" expanded="false" />
-            <element signature="e#53245#53257#0" expanded="false" />
-            <element signature="e#53403#53405#0" expanded="false" />
-            <element signature="e#54354#54688#0" expanded="false" />
-            <element signature="e#54745#54747#0" expanded="false" />
-            <element signature="e#55113#55115#0" expanded="false" />
-            <element signature="e#55409#55411#0" expanded="false" />
-            <element signature="e#55725#55727#0" expanded="false" />
-            <element signature="e#56009#56011#0" expanded="false" />
-            <element signature="e#56305#56307#0" expanded="false" />
-            <element signature="e#56601#56603#0" expanded="false" />
-            <element signature="e#56888#56890#0" expanded="false" />
-            <element signature="e#58598#59081#0" expanded="false" />
-            <element signature="e#59184#59196#0" expanded="false" />
-            <element signature="e#61180#61207#0" expanded="false" />
-            <element signature="e#61592#61594#0" expanded="false" />
-            <element signature="e#64647#64674#0" expanded="false" />
-            <element signature="e#64789#64816#0" expanded="false" />
-            <element signature="e#68598#68610#0" expanded="false" />
-            <element signature="e#68943#68956#0" expanded="false" />
-            <element signature="e#70401#71589#0" expanded="false" />
-            <element signature="e#73076#73089#0" expanded="false" />
-            <element signature="e#74488#77079#0" expanded="false" />
-            <element signature="e#80522#80810#0" expanded="false" />
-            <element signature="e#81362#81403#0" expanded="false" />
-            <element signature="e#84136#86133#0" expanded="false" />
-            <element signature="e#89891#89903#0" expanded="false" />
-            <element signature="e#90240#90253#0" expanded="false" />
-            <element signature="e#92498#92907#0" expanded="false" />
-            <element signature="e#93082#93175#0" expanded="false" />
-            <element signature="e#94571#94583#0" expanded="false" />
-            <element signature="e#94912#94925#0" expanded="false" />
-            <element signature="e#95407#95419#0" expanded="false" />
-            <element signature="e#95805#95818#0" expanded="false" />
-            <element signature="e#101492#101504#0" expanded="false" />
-            <element signature="e#101844#101857#0" expanded="false" />
-            <element signature="e#103360#103385#0" expanded="false" />
-            <element signature="e#103491#103516#0" expanded="false" />
-            <element signature="e#103628#103653#0" expanded="false" />
-            <element signature="e#103786#103811#0" expanded="false" />
-            <element signature="e#105887#105912#0" expanded="false" />
-            <element signature="e#107598#107623#0" expanded="false" />
-            <element signature="e#107997#108022#0" expanded="false" />
-            <element signature="e#110553#113621#0" expanded="false" />
-            <element signature="e#118184#118196#0" expanded="false" />
-            <element signature="e#118530#118543#0" expanded="false" />
-            <element signature="e#127202#127421#0" expanded="false" />
-            <element signature="e#127505#127528#0" expanded="false" />
-            <element signature="e#128519#128824#0" expanded="false" />
-            <element signature="e#130464#132972#0" expanded="false" />
-            <element signature="e#136510#136729#0" expanded="false" />
-            <element signature="e#136813#136836#0" expanded="false" />
-            <element signature="e#137904#138246#0" expanded="false" />
-            <element signature="e#139895#142261#0" expanded="false" />
-            <element signature="e#144855#144871#0" expanded="false" />
-            <element signature="e#145805#145839#0" expanded="false" />
-            <element signature="e#146159#146246#0" expanded="false" />
-            <element signature="e#146584#146610#0" expanded="false" />
-            <element signature="e#146940#147001#0" expanded="false" />
-            <element signature="e#147339#147365#0" expanded="false" />
-            <element signature="e#147764#147847#0" expanded="false" />
-            <element signature="e#148192#148229#0" expanded="false" />
-            <element signature="e#151702#151714#0" expanded="false" />
-            <element signature="e#152051#152064#0" expanded="false" />
-            <element signature="e#154112#154124#0" expanded="false" />
-            <element signature="e#154333#154335#0" expanded="false" />
-            <element signature="e#157460#157472#0" expanded="false" />
-            <element signature="e#157733#157746#0" expanded="false" />
-            <element signature="e#158200#158212#0" expanded="false" />
-            <element signature="e#158515#158528#0" expanded="false" />
-            <element signature="e#159034#159046#0" expanded="false" />
-            <element signature="e#159425#159438#0" expanded="false" />
-            <element signature="e#159934#159946#0" expanded="false" />
-            <element signature="e#171897#171909#0" expanded="false" />
-            <element signature="e#172173#172186#0" expanded="false" />
-            <element signature="e#172614#172626#0" expanded="false" />
-            <element signature="e#172990#173003#0" expanded="false" />
-            <element signature="e#176556#176558#0" expanded="false" />
-            <element signature="e#177780#177821#0" expanded="false" />
-            <element signature="e#183403#183415#0" expanded="false" />
-            <element signature="e#183725#183738#0" expanded="false" />
-            <element signature="e#191970#191992#0" expanded="false" />
-            <element signature="e#213520#214385#0" expanded="false" />
-            <element signature="e#216448#219731#0" expanded="false" />
-            <element signature="e#219887#220120#0" expanded="false" />
-            <element signature="e#220432#220866#0" expanded="false" />
-            <element signature="e#221046#221144#0" expanded="false" />
-            <element signature="e#221366#221391#0" expanded="false" />
-            <element signature="e#222857#222882#0" expanded="false" />
-            <element signature="e#227927#227952#0" expanded="false" />
-            <element signature="e#228407#228432#0" expanded="false" />
-            <element signature="e#228887#228912#0" expanded="false" />
-            <element signature="e#229575#229711#0" expanded="false" />
-            <element signature="e#230202#230227#0" expanded="false" />
-            <element signature="e#243588#243612#0" expanded="false" />
-            <element signature="e#243796#243807#0" expanded="false" />
-            <element signature="e#243961#244585#0" expanded="false" />
-            <element signature="e#248578#249529#0" expanded="false" />
-            <element signature="e#250674#250928#0" expanded="false" />
-            <element signature="e#254158#255079#0" expanded="false" />
-            <element signature="e#257146#257400#0" expanded="false" />
-            <element signature="e#260543#261434#0" expanded="false" />
-            <element signature="e#263511#263765#0" expanded="false" />
-            <element signature="e#266821#267682#0" expanded="false" />
-            <element signature="e#269769#270023#0" expanded="false" />
-            <element signature="e#272992#273823#0" expanded="false" />
-            <element signature="e#275920#276174#0" expanded="false" />
-            <element signature="e#279056#279857#0" expanded="false" />
-            <element signature="e#281964#282218#0" expanded="false" />
-            <element signature="e#285013#285784#0" expanded="false" />
-            <element signature="e#287901#288155#0" expanded="false" />
-            <element signature="e#290863#291604#0" expanded="false" />
-            <element signature="e#293731#293985#0" expanded="false" />
-            <element signature="e#296606#297317#0" expanded="false" />
-            <element signature="e#299454#299708#0" expanded="false" />
-            <element signature="e#302242#302923#0" expanded="false" />
-            <element signature="e#305070#305324#0" expanded="false" />
-            <element signature="e#307771#308422#0" expanded="false" />
-            <element signature="e#310579#310833#0" expanded="false" />
-            <element signature="e#313193#313814#0" expanded="false" />
-            <element signature="e#315981#316235#0" expanded="false" />
-            <element signature="e#318508#319099#0" expanded="false" />
-            <element signature="e#321276#321530#0" expanded="false" />
-            <element signature="e#323716#324277#0" expanded="false" />
-            <element signature="e#326464#326718#0" expanded="false" />
-            <element signature="e#328817#329348#0" expanded="false" />
-            <element signature="e#331545#331799#0" expanded="false" />
-            <element signature="e#333811#334312#0" expanded="false" />
-            <element signature="e#336519#336773#0" expanded="false" />
-            <element signature="e#338698#339169#0" expanded="false" />
-            <element signature="e#341386#341640#0" expanded="false" />
-            <element signature="e#343478#343919#0" expanded="false" />
-            <element signature="e#346146#346400#0" expanded="false" />
-            <element signature="e#348151#348562#0" expanded="false" />
-            <element signature="e#350799#351053#0" expanded="false" />
-            <element signature="e#352717#353098#0" expanded="false" />
-            <element signature="e#355345#355599#0" expanded="false" />
-            <element signature="e#357176#357527#0" expanded="false" />
-            <element signature="e#359784#360038#0" expanded="false" />
-            <element signature="e#361528#361849#0" expanded="false" />
-            <element signature="e#364116#364370#0" expanded="false" />
-            <element signature="e#365773#366064#0" expanded="false" />
-            <element signature="e#368341#368595#0" expanded="false" />
-            <element signature="e#369911#370173#0" expanded="false" />
-            <element signature="e#372461#372715#0" expanded="false" />
-            <element signature="e#373948#374181#0" expanded="false" />
-            <element signature="e#376481#376735#0" expanded="false" />
-            <element signature="e#377885#378089#0" expanded="false" />
-            <element signature="e#380401#380655#0" expanded="false" />
-            <element signature="e#381722#381897#0" expanded="false" />
-            <element signature="e#384221#384475#0" expanded="false" />
-            <element signature="e#385459#385605#0" expanded="false" />
-            <element signature="e#387941#388195#0" expanded="false" />
-            <element signature="e#389096#389213#0" expanded="false" />
-            <element signature="e#391561#391815#0" expanded="false" />
-            <element signature="e#392633#392721#0" expanded="false" />
-            <element signature="e#395081#395335#0" expanded="false" />
-            <element signature="e#396070#396129#0" expanded="false" />
-            <element signature="e#398501#398755#0" expanded="false" />
-            <element signature="e#399407#399437#0" expanded="false" />
-            <element signature="e#401821#402075#0" expanded="false" />
-            <element signature="e#402770#404027#0" expanded="false" />
-            <element signature="e#408519#408553#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/include/cl.h" />
     <entry file="file://$PROJECT_DIR$/CGLContext.cpp" />
     <entry file="file:///System/Library/Frameworks/OpenCL.framework/Headers/cl.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="765" column="0" selection-start-line="765" selection-start-column="0" selection-end-line="765" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sine_wave.ocl">
+    <entry file="file://$PROJECT_DIR$/include.h" />
+    <entry file="file://$PROJECT_DIR$/sine_wave.cl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
-          <folding>
-            <element signature="e#49#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GLFW.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#172#195#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/Context.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Context.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="28" column="51" selection-start-line="28" selection-start-column="51" selection-end-line="28" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Context.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1687">
-          <caret line="144" column="5" selection-start-line="68" selection-start-column="0" selection-end-line="144" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/Context.h" />
+    <entry file="file://$PROJECT_DIR$/Context.h" />
+    <entry file="file://$PROJECT_DIR$/Context.cpp" />
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1191,18 +937,109 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/INILoader.cpp" />
+    <entry file="file://$PROJECT_DIR$/src/INILoader.h" />
+    <entry file="file://$PROJECT_DIR$/src/ConfigLoader.cpp" />
+    <entry file="file://$PROJECT_DIR$/src/ConfigLoader.h" />
+    <entry file="file://$PROJECT_DIR$/inih/tests/bad_comment.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inih/tests/bad_multi.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inih/tests/baseline_single.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inih/cpp/INIReader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="701">
+          <caret line="80" column="69" selection-start-line="80" selection-start-column="69" selection-end-line="80" selection-end-column="69" />
+          <folding>
+            <element signature="e#49#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opengl/GLFW.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/stdio.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="250" column="5" selection-start-line="250" selection-start-column="5" selection-end-line="250" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="e#114#131#0" expanded="true" />
+            <marker date="1476135394000" expanded="true" signature="203:438" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/opencl/utils.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+        <state relative-caret-position="150">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="e#115#141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencl/utils.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/opencl/SharedContext.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        <state relative-caret-position="465">
+          <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
           <folding>
             <element signature="e#135#161#0" expanded="true" />
           </folding>
@@ -1211,8 +1048,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        <state relative-caret-position="105">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -1221,11 +1058,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/opencl/SharedContext.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="96" column="75" selection-start-line="96" selection-start-column="75" selection-end-line="96" selection-end-column="75" />
+        <state relative-caret-position="315">
+          <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
           <folding>
-            <element signature="e#1249#1310#0" expanded="true" />
-            <element signature="e#2680#3899#0" expanded="true" />
+            <element signature="e#50#68#0" expanded="true" />
           </folding>
         </state>
       </provider>

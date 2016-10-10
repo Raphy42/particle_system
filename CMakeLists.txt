@@ -11,7 +11,7 @@ add_subdirectory(glfw-3.2.1)
 include_directories(glfw-3.2.1/include)
 include_directories(include)
 
-set(SOURCE_FILES main.cpp GLFW.cpp GLFW.h src/opencl/SharedContext.cpp src/opencl/SharedContext.h src/opencl/utils.h)
+set(SOURCE_FILES main.cpp src/opengl/GLFW.cpp src/opengl/GLFW.h src/opencl/SharedContext.cpp src/opencl/SharedContext.h src/opencl/utils.h src/Core.cpp src/Core.h src/opencl/utils.cpp)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(particle_system ${SOURCE_FILES})
 
