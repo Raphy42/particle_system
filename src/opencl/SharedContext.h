@@ -5,7 +5,7 @@
 #ifndef PARTICLE_SYSTEM_CLSHAREDCONTEXT_H
 #define PARTICLE_SYSTEM_CLSHAREDCONTEXT_H
 
-#include <OpenCL/opencl.h>
+#include "cl.h"
 #include <string.h>
 #include <iostream>
 #include <OpenGL/OpenGL.h>
@@ -33,7 +33,9 @@ namespace OpenCL {
         cl_uint                     _numDevices;
         cl_context                  _context;
         cl_command_queue            _queue;
+        cl_command_queue            *_queues;
         cl_program                  _program;
+        cl_kernel                   _kernel;
     };
 }
 

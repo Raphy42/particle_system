@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/opencl/SharedContext.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opencl/utils.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opencl/SharedContext.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/opencl/cl.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opencl/utils.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opengl/GLFW.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opengl/GLFW.h" isTestSource="false" />

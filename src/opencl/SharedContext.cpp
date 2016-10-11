@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include "SharedContext.h"
-#include "utils.h"
 
 static bool     IsExtensionSupported(const char *support_str, const char *ext_string, size_t ext_buffer_size)
 {
@@ -75,8 +74,8 @@ void OpenCL::SharedContext::Init() {
     OpenCL::getStatus(_clStatus, "clCreateContext");
 #elif defined(__linux__)
     cl_context_properties       properties[] = {
-                CL_GL_CONTEXT_KHR,   (cl_context_properties)glXGetCurrentContext(),
-                CL_GLX_DISPLAY_KHR,  (cl_context_properties)glXGetCurrentDisplay(),
+                CL_GL_CONTEXT_KHR, (cl_context_properties)glfwGetGLXContext(window),
+                CL_GLX_DISPLAY_KHR, (cl_context_properties)glfwGetX11Display(),
                 CL_CONTEXT_PLATFORM, (cl_context_properties)_platforms[0],
                 0
         };
@@ -86,11 +85,11 @@ void OpenCL::SharedContext::Init() {
             32 * sizeof(cl_device_id), devices, &size);
         _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
 #else
-        cl_context_properties           properties[] = {
-                CL_GL_CONTEXT_KHR,      (cl_context_properties)wglGetCurrentContext(),
-                CL_WGL_HDC_KHR,         (cl_context_properties)wglGetCurrentDC(),
-                CL_CONTEXT_PLATFORM,    (cl_context_properties)_platforms[0],
-                0
+        cl_context_properties properties[] = {
+           CL_GL_CONTEXT_KHR, (cl_context_properties)glfwGetWGLContext(window),
+            CL_WGL_HDC_KHR, (cl_context_properties)GetDC(glfwGetWin32Window(window)),
+            CL_CONTEXT_PLATFORM, (cl_context_properties)_platforms[0],
+            0
         };
         cl_device_id devices[32];
         size_t size;
@@ -98,8 +97,13 @@ void OpenCL::SharedContext::Init() {
             32 * sizeof(cl_device_id), devices, &size);
         _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
 #endif
-    _queue = clCreateCommandQueue(_context, _deviceList[0], 0, &_clStatus);
-    OpenCL::getStatus(_clStatus, "clCreateCommandQueue");
+    for(int i = 0; i < _numDevices; i++)
+    {
+        _queue = clCreateCommandQueue(_context, _deviceList[i], 0, &_clStatus);
+        OpenCL::getStatus(_clStatus, "clCreateCommandQueue");
+        if (_clStatus == CL_SUCCESS)
+            break ;
+    }
 }
 
 cl_context OpenCL::SharedContext::getContext() const {
@@ -125,12 +129,12 @@ static int getBuildStatus(cl_program program, cl_device_id device)
        if(logStatus != CL_SUCCESS)
        {
            std::cerr << "Error # "<< logStatus <<":: clGetProgramBuildInfo<CL_PROGRAM_BUILD_LOG>failed.";
-           exit(EXIT_FAILURE);
+           return (-1);
         }
        buildLog = (char*)malloc(buildLogSize);
        if(buildLog == NULL)
        {
-           std::cout << "Failed to allocate host memory.(buildLog)\n";
+           std::cerr << "Failed to allocate host memory.(buildLog)\n";
            return -1;
        }
        memset(buildLog, 0, buildLogSize);
@@ -140,12 +144,14 @@ static int getBuildStatus(cl_program program, cl_device_id device)
          buildLogSize,
          buildLog,
          NULL);
+        OpenCL::getStatus(logStatus, "clGetProgramBuildInfo");
        if(logStatus != CL_SUCCESS)
        {
-           std::cout << "Error # "<< logStatus
+           std::cerr << "Error # "<< logStatus
                <<":: clGetProgramBuildInfo<CL_PROGRAM_BUILD_LOG>failed.";
         exit(1);
         }
+    std::cerr << buildLog << std::endl;
     return (0);
 }
 
@@ -163,6 +169,17 @@ void OpenCL::SharedContext::BindKernel(std::string filename)
     buffer = (char *)malloc(sizeof(char) * size);
     fread(buffer, sizeof(char), (size_t)size, f);
     _program = clCreateProgramWithSource(_context, 1, (const char **)&buffer, (const size_t *)&size, &_clStatus);
+    OpenCL::getStatus(_clStatus, "clCreateProgramWithSource");
     _clStatus = clBuildProgram(_program, _numDevices, _deviceList, NULL, NULL, NULL);
-    getBuildStatus(_program, _deviceList[0]);
+    OpenCL::getStatus(_clStatus, "clBuildProgram");
+    for (int i = 0; i < _numDevices; i++)
+    {
+        cl_build_status status;
+        clGetProgramBuildInfo(_program, _deviceList[i], CL_PROGRAM_BUILD_STATUS,
+                              sizeof(status), &status, NULL);
+        getBuildStatus(_program, _deviceList[i]);
+        std::cerr << "Build status for device " << i << " = " << status << std::endl;
+    }
+    _kernel = clCreateKernel(_program, "random", &_clStatus);
+    OpenCL::getStatus(_clStatus, "clCreateKernel");
 }

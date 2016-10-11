@@ -1,15 +1,15 @@
-__kernel void sine_wave(__global float4 *pos, uint width, uint height, float time)
+float rand(int x)
 {
-    uint x = get_global_id(0);
-    uint y = get_global_id(1);
+    x = (x << 13) ^ x;
+    return ( 1.0 - ( (x * (x * x * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
+}
 
-    float u = x / (float) width;
-    float v = y / (float) height;
-    u = u * 2.0f - 1.0f;
-    v = v * 2.0f - 1.0f;
-
-    float freq = 4.0f;
-    float w = sin(u * freq + time) * cos(v * freq + time) * 0.5f;
-
-    pos[y * width + x] = (float4)(u, w, v , 1.0f);
+__kernel
+void random(global float* positions,
+        int const dimx, int const dimy,
+        uint const seed)
+{
+    int id = get_global_id(0);
+    positions[2*id+0] = rand(seed * id);
+    positions[2*id+1] = rand(seed ^ id);
 }
