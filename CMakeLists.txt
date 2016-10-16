@@ -7,12 +7,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -framework OpenCL -framework 
 find_package(OpenCL REQUIRED)
 include_directories(${OPENCL_INCLUDE_DIR})
 
+find_package(Freetype REQUIRED)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+
 add_subdirectory(glfw-3.2.1)
 include_directories(glfw-3.2.1/include)
 include_directories(include)
 
-set(SOURCE_FILES main.cpp src/opengl/GLFW.cpp src/opengl/GLFW.h src/opencl/SharedContext.cpp src/opencl/SharedContext.h src/opencl/utils.h src/Core.cpp src/Core.h src/opencl/utils.cpp src/opencl/cl.h)
+set(SOURCE_FILES main.cpp utils/FileLogger.cpp utils/FileLogger.h proxies/GLFW.cpp proxies/GLFW.h proxies/ProxyInterface.h proxies/FreeType.cpp proxies/FreeType.h)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(particle_system ${SOURCE_FILES})
 
-target_link_libraries(particle_system glfw ${GLFW_LIBRAIRIES} ${OPENCL_LIBRAIRIES})
+target_link_libraries(particle_system
+        glfw ${GLFW_LIBRAIRIES}
+        freetype ${FREETYPE_LIBRAIRIES}
+        ${OPENCL_LIBRAIRIES})

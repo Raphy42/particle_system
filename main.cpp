@@ -1,38 +1,20 @@
-#include <iostream>
-#include "src/opengl/GLFW.h"
-#include "src/opencl/SharedContext.h"
+//
+// Created by Raphaël Dantzer on 12/10/16.
+//
 
-int main() {
+#include "utils/FileLogger.h"
+#include "proxies/GLFW.h"
 
-    GLFW graphic_context(1200, 800, "Test");
-    OpenCL::SharedContext *context = new OpenCL::SharedContext();
+int main(void)
+{
+    FLOG_INFO("main start");
+    Proxy::GLFW glfw(std::pair<int, int>(1200, 800), "Test", std::pair<int, int>(4, 1));
 
-    GLuint vbo;
-
-    context->BindKernel("sine_wave.cl");
-
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * 100, NULL, GL_STATIC_DRAW);
-    glVertexPointer(4, GL_FLOAT, 0, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    cl_int err;
-    cl_mem cl_buffer = clCreateFromGLBuffer(context->getContext(), CL_MEM_READ_WRITE, vbo, &err);
-
-    err = clEnqueueAcquireGLObjects(context->getQueue(), 1, &cl_buffer, 0, 0, 0);
-    OpenCL::getStatus(err, "clEnqueueAcquireGLObjects");
-    //EXECUTE KERNEL HERE
-    err = clEnqueueReleaseGLObjects(context->getQueue(), 1, &cl_buffer, 0, 0, 0);
-    OpenCL::getStatus(err, "clEnqueueReleaseGLObjects");
-    err = clFlush(context->getQueue());
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    while (graphic_context.should_exit())
+    while (!glfwWindowShouldClose(glfw.getWindow()))
     {
+        glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        graphic_context.render();
+        glfwSwapBuffers(glfw.getWindow());
     }
     return (0);
 }

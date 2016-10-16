@@ -1,0 +1,7 @@
+Log started @ 16-10-2016 18-51-05
+[INFO]: main start
+[INFO]: glfw init
+[INFO]: Test
+[INFO]: glfwCreateWindow success
+[INFO]: escape key pressed, window should close
+[INFO]: glfwTerminate
