@@ -4,11 +4,7 @@
 
 #include <iostream>
 
-//glew? what is it ?
-#define GLFW_INCLUDE_GLCOREARB
-
 #include "GLFW.h"
-#include <OpenGL/gl3.h>
 
 #include "../utils/FileLogger.h"
 
@@ -65,6 +61,8 @@ namespace Proxy {
                 case GLFW_KEY_ESCAPE:
                     glfwSetWindowShouldClose(w, true);
                     FLOG_INFO("escape key pressed, window should close");
+                case GLFW_KEY_R:
+                    FLOG_INFO("shader reload not yet implemented");
                 default:
                     break;
             }

@@ -34,7 +34,7 @@ OpenGL::Program::~Program() {
         glDeleteShader(_fs);
 }
 
-void OpenGL::Program::bind() {
+void OpenGL::Program::bind() const {
     glUseProgram(_program);
 }
 
@@ -62,10 +62,14 @@ GLuint OpenGL::Program::build(std::string &filename, GLenum shaderType) {
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
     if (!status)
     {
-        char buffer[512];
-        glGetShaderInfoLog(shader, 512, NULL, buffer);
-        FLOG_WARNING(buffer);
+        char log[512];
+        glGetShaderInfoLog(shader, 512, NULL, log);
+        FLOG_WARNING(log);
     }
     return (shader);
+}
+
+GLint OpenGL::Program::uniform(const char *uniform) const {
+    return glGetUniformLocation(_program, uniform);
 }
 

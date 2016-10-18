@@ -13,7 +13,8 @@ namespace OpenGL {
         Program(std::string vs, std::string fs);
         ~Program();
 
-        void    bind();
+        void    bind() const;
+        GLint   uniform(const char *uniform) const;
 
     private:
         GLuint      _program;

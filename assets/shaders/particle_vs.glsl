@@ -1,13 +1,15 @@
 #version 410 core
 
+#define POINT_SIZE      0.4f
+
 layout (location = 0) in vec4 pos;
 
-//uniform mat4 mvp;
+uniform mat4 mvp;
 
 out vec4 color;
 
 void main() {
-    gl_Position = pos;
-    gl_PointSize = max(1.f, 1.f / gl_Position.w);
+    gl_Position = mvp * pos;
+    gl_PointSize = max(POINT_SIZE, POINT_SIZE / gl_Position.w);
     color = gl_Position;
 }

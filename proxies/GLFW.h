@@ -5,7 +5,10 @@
 #ifndef PARTICLE_SYSTEM_GLFW_H
 #define PARTICLE_SYSTEM_GLFW_H
 
+#define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
+#include <OpenGL/gl3.h>
+
 #include <utility>
 #include "ProxyInterface.h"
 

@@ -5,17 +5,20 @@
 #include "utils/FileLogger.h"
 #include "opengl/Program.h"
 #include "proxies/OpenCL.h"
-#include <OpenGL/gl3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <OpenCL/opencl.h>
 
-#define PARTICLE_COUNT 1000
+#define PARTICLE_COUNT 1000000
 
 int main(void)
 {
     FLOG_INFO("main start");
     Proxy::GLFW glfw(std::pair<int, int>(1200, 800), "Test", std::pair<int, int>(4, 1));
     Proxy::OpenCL cl;
-    cl.CreateKernel("./assets/kernels/particle.cl", "particle_init");
+    cl.CreateKernelFromFile("./assets/kernels/particle.cl", "particle_init");
+    cl.CreateKernelFromProgram("particle");
     OpenGL::Program program("./assets/shaders/particle_vs.glsl", "./assets/shaders/particle_fs.glsl");
     GLuint vao, vbo;
 
@@ -29,33 +32,60 @@ int main(void)
     glBindVertexArray(0);
     glFinish();
 
-//    glm::mat4 perspective = glm::perspective(90.f, 1200 / 800, 0.01f, 1000.f);
 
-    cl_mem pos = cl.CreateBuffer(vbo, CL_MEM_READ_WRITE);
-    clEnqueueWriteBuffer(cl.getQueue(), pos, CL_TRUE, 0, PARTICLE_COUNT * 4 * sizeof(float), nullptr, 0, nullptr, nullptr);
-    clSetKernelArg(cl.getKernels()[0], 0, sizeof(cl_mem), (void *)&pos);
+    //CL OPS
+    cl_float4 *cursor_pos = new cl_float4;
 
+    cl_mem pos = cl.CreateBufferFromVBO(vbo, CL_MEM_READ_WRITE);
+    cl_mem cl_cursor = cl.CreateBuffer(sizeof(cl_cursor), CL_MEM_COPY_HOST_PTR, cursor_pos);
+
+    cl.getStatus(clSetKernelArg(cl.getKernels()[0], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+
+    cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
     size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
+    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[0], 1, nullptr,
+                                        &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
+    cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
-    clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[0], 1, nullptr, &global_item_size, &local_item_size, 0,
-                           nullptr, nullptr);
-
-    clFlush(cl.getQueue());
-    clFlush(cl.getQueue());
+    clFinish(cl.getQueue());
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_PROGRAM_POINT_SIZE);
 
+    GLint mvp_id = program.uniform("mvp");
+
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
+        glm::mat4 model;
+        glm::mat4 view = glm::lookAt(glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()), cos(glfwGetTime())),
+                                     glm::vec3(0.0f, 0.0f, 0.0f),
+                                     glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 perspective = glm::perspective(68.f, 1200.f / 800.f, 0.1f, 1000.f);
+        glm::mat4 mvp = perspective * view * model;
+
+//        glfwGetCursorPos(glfw.getWindow(), (double *) &cursor_pos->s[0], (double *) &cursor_pos->s[1]);
+//        cursor_pos->s[2] = 1.0f;
+//        cursor_pos->s[3] = 1.0f;
+//
+//        glFinish();
+//
+//        cl.getStatus(clSetKernelArg(cl.getKernels()[1], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+//        cl.getStatus(clSetKernelArg(cl.getKernels()[1], 1, sizeof(cl_mem), (void *)&cl_cursor), "clSetKernelArg");
+//        cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
+//        cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[1], 1, nullptr,
+//                                            &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
+//        cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
+//
+//        clFinish(cl.getQueue());
+
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.bind();
+        glUniformMatrix4fv(mvp_id, 1, GL_FALSE, glm::value_ptr(mvp));
         glBindVertexArray(vao);
         glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
         glBindVertexArray(0);
-        glFinish();
         glfwSwapBuffers(glfw.getWindow());
         glfwPollEvents();
     }

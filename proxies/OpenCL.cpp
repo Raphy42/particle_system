@@ -3,6 +3,8 @@
 //
 
 #include <vector>
+#include <OpenCL/cl_gl.h>
+#include <OpenGL/OpenGL.h>
 #include "OpenCL.h"
 #include "../utils/FileLogger.h"
 
@@ -140,18 +142,18 @@ void Proxy::OpenCL::PreInit() {
 
 #ifdef __APPLE__
 void Proxy::OpenCL::Init() {
-    CGLContextObj CGLContext = CGLGetCurrentContext();
-    CGLShareGroupObj CGLShareGroup = CGLGetShareGroup(CGLContext);
+    CGLContextObj kCGLContext = CGLGetCurrentContext();
+    CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(kCGLContext);
 
     for (int i = 0; i < _platformCount; ++i) {
         cl_context_properties properties[] = {
                 CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
-                (cl_context_properties)CGLShareGroup,
+                (cl_context_properties)kCGLShareGroup,
                 0
         };
         _context = clCreateContext(properties, 0, nullptr, nullptr, nullptr, &_status);
         STATUS("clCreateContext");
-        _status = clGetGLContextInfoAPPLE(_context, CGLContext, CL_CGL_DEVICE_FOR_CURRENT_VIRTUAL_SCREEN_APPLE,
+        _status = clGetGLContextInfoAPPLE(_context, kCGLContext, CL_CGL_DEVICE_FOR_CURRENT_VIRTUAL_SCREEN_APPLE,
                                 sizeof(_device), &_device, nullptr);
         STATUS("clGetGLContextInfoAPPLE");
     }
@@ -188,7 +190,7 @@ static void getProgramBuildError(cl_program program, cl_device_id device)
     FLOG_CRITICAL(log);
 }
 
-void Proxy::OpenCL::CreateKernel(const char *filename, const char *kernel_name) {
+void Proxy::OpenCL::CreateKernelFromFile(const char *filename, const char *kernel_name) {
     std::ifstream t(filename);
     std::string str;
 
@@ -202,25 +204,40 @@ void Proxy::OpenCL::CreateKernel(const char *filename, const char *kernel_name) 
     const char *source = str.c_str();
     const size_t length = str.length();
 
-    cl_program program;
-    program = clCreateProgramWithSource(_context, 1, &source, &length, &_status);
+    _program = clCreateProgramWithSource(_context, 1, &source, &length, &_status);
     STATUS("clCreateProgramWithSource");
-    _status = clBuildProgram(program, 1, &_device, NULL, NULL, NULL);
+    _status = clBuildProgram(_program, 1, &_device, NULL, NULL, NULL);
     if (_status != CL_SUCCESS)
-        getProgramBuildError(program, _device);
+        getProgramBuildError(_program, _device);
     STATUS("clBuildProgram");
 
     cl_kernel kernel;
-    kernel = clCreateKernel(program, kernel_name, &_status);
+    kernel = clCreateKernel(_program, kernel_name, &_status);
     STATUS("clCreateKernel");
     _kernels.push_back(kernel);
 }
 
-cl_mem Proxy::OpenCL::CreateBuffer(cl_GLuint vbo, cl_mem_flags permission)
+void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
+{
+    cl_kernel kernel;
+    kernel = clCreateKernel(_program, kernel_name, &_status);
+    STATUS("clCreateKernel");
+    _kernels.push_back(kernel);
+}
+
+cl_mem Proxy::OpenCL::CreateBufferFromVBO(cl_GLuint vbo, cl_mem_flags permission)
 {
     cl_mem buffer = clCreateFromGLBuffer(_context, permission, vbo, &_status);
-    STATUS("clCreateBuffer");
+    STATUS("clCreateFromGLBuffer");
+    return buffer;
 }
+
+cl_mem Proxy::OpenCL::CreateBuffer(size_t size, cl_mem_flags permission, void *host_ptr) {
+    cl_mem buffer = clCreateBuffer(_context, permission, size, host_ptr, &_status);
+    STATUS("clCreateBuffer");
+    return buffer;
+}
+
 
 const cl_command_queue Proxy::OpenCL::getQueue() const {
     return _queue;
@@ -229,3 +246,8 @@ const cl_command_queue Proxy::OpenCL::getQueue() const {
 const std::vector<cl_kernel> &Proxy::OpenCL::getKernels() const {
     return _kernels;
 }
+
+const void Proxy::OpenCL::getStatus(cl_int status, const char *caller) {
+    cl_checkStatus(status, caller);
+}
+
