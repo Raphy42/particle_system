@@ -1,0 +1,18 @@
+Log started @ 18-10-2016 07-21-31
+[INFO]: main start
+[INFO]: glfw init
+[INFO]: Test
+[INFO]: glfwCreateWindow success
+[INFO]: 4.1 NVIDIA-10.10.13 310.42.25f01
+[INFO]: NVIDIA GeForce GT 750M OpenGL Engine
+[INFO]: CL_SUCCESS: clGetPlatformIDs
+[INFO]: CL_SUCCESS: clGetPlatformIDs
+[INFO]: CL_SUCCESS: clCreateContext
+[INFO]: CL_SUCCESS: clGetGLContextInfoAPPLE
+[INFO]: CL_SUCCESS: clCreateCommandQueue
+[INFO]: CL_SUCCESS: clCreateProgramWithSource
+[INFO]: CL_SUCCESS: clBuildProgram
+[INFO]: CL_SUCCESS: clCreateKernel
+[INFO]: CL_SUCCESS: clCreateBuffer
+[INFO]: escape key pressed, window should close
+[INFO]: glfwTerminate
