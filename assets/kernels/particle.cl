@@ -33,7 +33,7 @@ __kernel void particle(__global float4 *pos, __global float4 *cursor)
     float x_distance = cursor->x - pos[id][0];
     float y_distance = cursor->y - pos[id][1];
     float z_distance = cursor->z - pos[id][2];
-    float distance = sqrtf(x_distance * x_distance + y_distance * y_distance);
+    float distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 
     if (distance > 1.0f)
     {

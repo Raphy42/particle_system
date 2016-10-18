@@ -140,12 +140,11 @@ void Proxy::OpenCL::PreInit() {
     STATUS("clGetPlatformIDs");
 }
 
-#ifdef __APPLE__
+#if defined(__APPLE__)
 void Proxy::OpenCL::Init() {
     CGLContextObj kCGLContext = CGLGetCurrentContext();
     CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(kCGLContext);
 
-    for (int i = 0; i < _platformCount; ++i) {
         cl_context_properties properties[] = {
                 CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
                 (cl_context_properties)kCGLShareGroup,
@@ -156,7 +155,24 @@ void Proxy::OpenCL::Init() {
         _status = clGetGLContextInfoAPPLE(_context, kCGLContext, CL_CGL_DEVICE_FOR_CURRENT_VIRTUAL_SCREEN_APPLE,
                                 sizeof(_device), &_device, nullptr);
         STATUS("clGetGLContextInfoAPPLE");
-    }
+}
+#elif defined(__linux__)
+
+#include <CL/cl_gl.h>
+#include <GL/glx.h>
+
+void Proxy::OpenCL::Init() {
+    cl_context_properties       properties[] = {
+                CL_CONTEXT_PLATFORM, (cl_context_properties)_platforms[0],
+                CL_GL_CONTEXT_KHR,   (cl_context_properties)glXGetCurrentContext(),
+                CL_GLX_DISPLAY_KHR,  (cl_context_properties)glXGetCurrentDisplay(),
+                0
+        };
+        cl_device_id devices[32];
+        size_t size;
+        _status = clGetGLContextInfoKHR(properties, CL_DEVICES_FOR_GL_CONTEXT_KHR,
+            32 * sizeof(cl_device_id), devices, &size);
+        _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
 }
 #else
 #error "Cant init OpenCL as it is not yet implemented for other platforms: test with #define LEGACY_SALE in main"
