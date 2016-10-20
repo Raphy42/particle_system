@@ -9,8 +9,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <OpenCL/opencl.h>
+#define NK_IMPLEMENTATION
+#define NK_GLFW3_GL3_IMPLEMENTATION
+#include <nuklear.h>cd
 
-#define PARTICLE_COUNT 1000000
+#define PARTICLE_COUNT 10000000
 
 int main(void)
 {

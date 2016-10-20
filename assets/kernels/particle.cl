@@ -17,6 +17,7 @@ __kernel void particle_init(__global float4 *pos)
 {
     uint			seed;
     uint const		id = get_global_id(0);
+    uint const      size = get_global_size(0);
 
     seed = 0xdeadbeef + (id | (id << 16)) * id;
     pos[id] = (float4){
@@ -27,6 +28,7 @@ __kernel void particle_init(__global float4 *pos)
     };
 }
 
+////////////////////////////////////////////////////////////////
 __kernel void particle(__global float4 *pos, __global float4 *cursor)
 {
     uint const id = get_global_id(0);

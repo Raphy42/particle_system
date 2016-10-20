@@ -27,9 +27,9 @@ private:
     std::pair<int, int>     _size;
     std::pair<int, int>     _framebuffer;
 
-    virtual void PreInit() override;
-    virtual void Init() override;
-    virtual void PostInit() override;
+    void PreInit() override;
+    void Init() override;
+    void PostInit() override;
 
 };
 

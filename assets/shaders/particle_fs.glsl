@@ -17,4 +17,5 @@ void main() {
     else {
         colour = vec4(0.4);
     }
+    colour *= color;
 }

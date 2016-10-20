@@ -1,6 +1,6 @@
 #version 410 core
 
-#define POINT_SIZE      0.4f
+#define POINT_SIZE      0.1f
 
 layout (location = 0) in vec4 pos;
 

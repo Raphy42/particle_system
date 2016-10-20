@@ -12,7 +12,7 @@ include_directories(${FREETYPE_INCLUDE_DIRS})
 
 add_subdirectory(glfw-3.2.1)
 include_directories(glfw-3.2.1/include)
-include_directories(include)
+include_directories(nuklear)
 
 set(SOURCE_FILES main.cpp utils/FileLogger.cpp utils/FileLogger.h proxies/GLFW.cpp proxies/GLFW.h proxies/ProxyInterface.h proxies/FreeType.cpp proxies/FreeType.h utils/FrameCounter.cpp utils/FrameCounter.h opengl/Program.cpp opengl/Program.h proxies/OpenCL.cpp proxies/OpenCL.h)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
