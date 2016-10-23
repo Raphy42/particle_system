@@ -57,7 +57,7 @@ int main(void)
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
         glm::mat4 model;
-        glm::mat4 view = glm::lookAt(glm::vec3(5 * sin(glfwGetTime()), 0, 5 * cos(glfwGetTime())),
+        glm::mat4 view = glm::lookAt(glm::vec3(5 * sin(glfwGetTime()), 5 * sin(glfwGetTime()), 5 * cos(glfwGetTime())),
                                      glm::vec3(0.0f, 0.0f, 0.0f),
                                      glm::vec3(0.0f, 1.0f, 0.0f));
         glm::mat4 perspective = glm::perspective(68.f, 1200.f / 800.f, 0.1f, 1000.f);
