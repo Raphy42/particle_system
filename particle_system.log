@@ -1,10 +1,10 @@
-Log started @ 19-10-2016 21-39-24
+Log started @ 23-10-2016 14-16-54
 [INFO]: main start
 [INFO]: glfw init
 [INFO]: Test
 [INFO]: glfwCreateWindow success
 [INFO]: 4.1 NVIDIA-10.10.13 310.42.25f01
-[INFO]: NVIDIA GeForce GT 750M OpenGL Engine
+[INFO]: NVIDIA GeForce GTX 660M OpenGL Engine
 [INFO]: CL_SUCCESS: clGetPlatformIDs
 [INFO]: CL_SUCCESS: clGetPlatformIDs
 [INFO]: CL_SUCCESS: clCreateContext

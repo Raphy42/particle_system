@@ -9,11 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <OpenCL/opencl.h>
-#define NK_IMPLEMENTATION
-#define NK_GLFW3_GL3_IMPLEMENTATION
-#include <nuklear.h>cd
 
-#define PARTICLE_COUNT 10000000
+#define PARTICLE_COUNT 1000000
 
 int main(void)
 {
@@ -45,7 +42,7 @@ int main(void)
     cl.getStatus(clSetKernelArg(cl.getKernels()[0], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
-    size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
+    size_t global_item_size = PARTICLE_COUNT, local_item_size = 64;
     cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[0], 1, nullptr,
                                         &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
@@ -60,7 +57,7 @@ int main(void)
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
         glm::mat4 model;
-        glm::mat4 view = glm::lookAt(glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()), cos(glfwGetTime())),
+        glm::mat4 view = glm::lookAt(glm::vec3(5 * sin(glfwGetTime()), 0, 5 * cos(glfwGetTime())),
                                      glm::vec3(0.0f, 0.0f, 0.0f),
                                      glm::vec3(0.0f, 1.0f, 0.0f));
         glm::mat4 perspective = glm::perspective(68.f, 1200.f / 800.f, 0.1f, 1000.f);

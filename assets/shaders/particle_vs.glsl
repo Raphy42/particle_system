@@ -4,6 +4,8 @@
 
 layout (location = 0) in vec4 pos;
 
+//TODO use uniform buffer object because
+
 uniform mat4 mvp;
 
 out vec4 color;
