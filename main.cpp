@@ -15,7 +15,7 @@
 int main(void)
 {
     FLOG_INFO("main start");
-    Proxy::GLFW glfw(std::pair<int, int>(1200, 800), "Test", std::pair<int, int>(4, 1));
+    Proxy::GLFW glfw(std::pair<int, int>(2000, 1600), "Test", std::pair<int, int>(4, 1));
     Proxy::OpenCL cl;
     cl.CreateKernelFromFile("./assets/kernels/particle.cl", "particle_init");
     cl.CreateKernelFromProgram("particle");
@@ -57,7 +57,7 @@ int main(void)
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
         glm::mat4 model;
-        glm::mat4 view = glm::lookAt(glm::vec3(5 * sin(glfwGetTime()), 5 * sin(glfwGetTime()), 5 * cos(glfwGetTime())),
+        glm::mat4 view = glm::lookAt(glm::vec3(5 * sin(glfwGetTime()), 0, 5 * cos(glfwGetTime())),
                                      glm::vec3(0.0f, 0.0f, 0.0f),
                                      glm::vec3(0.0f, 1.0f, 0.0f));
         glm::mat4 perspective = glm::perspective(68.f, 1200.f / 800.f, 0.1f, 1000.f);
