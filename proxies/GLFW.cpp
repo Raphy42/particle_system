@@ -76,8 +76,7 @@ namespace Proxy {
 
         //No need for callback manager just static function here
 
-
-        glfwSetKeyCallback(_window, key_callback);
+//        glfwSetKeyCallback(_window, key_callback);
 
 
         //END CALLBACKS
@@ -93,6 +92,10 @@ namespace Proxy {
         glfwDestroyWindow(_window);
         glfwTerminate();
         FLOG_INFO("glfwTerminate");
+    }
+
+    glfw::EventQueue &GLFW::get_queue() {
+        return _queue;
     }
 
 

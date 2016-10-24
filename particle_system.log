@@ -1,4 +1,4 @@
-Log started @ 23-10-2016 20-28-30
+Log started @ 24-10-2016 12-25-45
 [INFO]: main start
 [INFO]: glfw init
 [INFO]: Test
@@ -20,6 +20,3 @@ Log started @ 23-10-2016 20-28-30
 [INFO]: CL_SUCCESS: clEnqueueAcquireGLObjects
 [INFO]: CL_SUCCESS: clEnqueueNDRangeKernel
 [INFO]: CL_SUCCESS: clEnqueueReleaseGLObjects
-[INFO]: escape key pressed, window should close
-[INFO]: shader reload not yet implemented
-[INFO]: glfwTerminate

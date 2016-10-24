@@ -11,6 +11,7 @@
 
 #include <utility>
 #include "ProxyInterface.h"
+#include "../glfw/EventQueue.h"
 
 namespace Proxy {
 
@@ -21,11 +22,14 @@ public:
 
     GLFWwindow *getWindow() const;
 
+    glfw::EventQueue &get_queue();
+
 private:
     GLFWwindow              *_window;
     const char              *_title;
     std::pair<int, int>     _size;
     std::pair<int, int>     _framebuffer;
+    glfw::EventQueue        _queue;
 
     void PreInit() override;
     void Init() override;
