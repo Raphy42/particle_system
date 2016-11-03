@@ -42,7 +42,7 @@ int main(void)
     cl.getStatus(clSetKernelArg(cl.getKernels()[0], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
-    size_t global_item_size = PARTICLE_COUNT, local_item_size = 64;
+    size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
     cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[0], 1, nullptr,
                                         &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");

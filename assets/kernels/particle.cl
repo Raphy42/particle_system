@@ -21,23 +21,20 @@
 
 __kernel void particle_init(__global float4 *pos)
 {
-const uint id = get_global_id(0);
+    uint const		id = get_global_id(0);
+	uint const		global_size = get_global_size(0);
+	float		    offset = 2.f / global_size;
+	float			y, r, phi, k;
 
-    const int step_x = id % 1000;
-    const int step_y = id / 1000;
-
-    float x = LINEAR_CONVERSION(step_x, 0, 1000, -M_PI_2, M_PI_2);
-    float y = LINEAR_CONVERSION(step_y, 0, 1000, -M_PI, M_PI);
-    float z = 0;
-
-    pos[id] = (float4){
-        cos(x) * cos(y) * x * sin(x) * y + sin(y) * cos(x) * z,
-        -sin(x) * cos(y) * x + cos(x) * y - sin(x) * sin(y) * z,
-        -sin(y) * x + cos(y) * z,
-        1.f
-    };
+    k = 2.f;
+    offset *= k;
+	y = ((id * offset * k) - 1.f * k) + (offset / 2.f);
+	r = sqrt(k * k - pow(y, 2));
+	phi = (id % global_size) * M_PI * (2.f - sqrtf(5.f));
+	pos[id] = (float4){cos(phi) * r, y, sin(phi) * r, 1.f};
+	pos[id] = normalize(pos[id]);
 }
-//
+
 //__kernel void particle_init(__global float4 *pos)
 //{
 //    const uint id = get_global_id(0);
@@ -46,11 +43,11 @@ const uint id = get_global_id(0);
 //    const int step_x = id % 100;
 //    const int step_y = (id / 100) % 100;
 //    const int step_z = id / (100 * 100);
-//
+
 //    float x = LINEAR_CONVERSION(step_x, 0, 100, -2, 2);
 //    float y = LINEAR_CONVERSION(step_y, 0, 100, -2, 2);
 //    float z = LINEAR_CONVERSION(step_z, 0, 100, -2, 2);
-//
+
 //    pos[id] = (float4){
 //        z,
 //        sqrtf(fabs(1 - sin(x) * sin(x))) * z,

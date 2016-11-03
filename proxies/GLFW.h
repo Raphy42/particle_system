@@ -29,7 +29,7 @@ private:
     const char              *_title;
     std::pair<int, int>     _size;
     std::pair<int, int>     _framebuffer;
-    glfw::EventQueue        _queue;
+//    glfw::EventQueue        _queue;
 
     void PreInit() override;
     void Init() override;

@@ -1,10 +1,10 @@
-Log started @ 24-10-2016 12-25-45
+Log started @ 03-11-2016 16-50-33
 [INFO]: main start
 [INFO]: glfw init
 [INFO]: Test
 [INFO]: glfwCreateWindow success
-[INFO]: 4.1 NVIDIA-10.10.13 310.42.25f01
-[INFO]: NVIDIA GeForce GTX 660M OpenGL Engine
+[INFO]: 4.1 NVIDIA-10.10.14 310.42.25f02
+[INFO]: NVIDIA GeForce GT 750M OpenGL Engine
 [INFO]: CL_SUCCESS: clGetPlatformIDs
 [INFO]: CL_SUCCESS: clGetPlatformIDs
 [INFO]: CL_SUCCESS: clCreateContext
@@ -20,3 +20,5 @@ Log started @ 24-10-2016 12-25-45
 [INFO]: CL_SUCCESS: clEnqueueAcquireGLObjects
 [INFO]: CL_SUCCESS: clEnqueueNDRangeKernel
 [INFO]: CL_SUCCESS: clEnqueueReleaseGLObjects
+[INFO]: escape key pressed, window should close
+[INFO]: glfwTerminate

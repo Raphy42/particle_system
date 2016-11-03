@@ -76,7 +76,22 @@ namespace Proxy {
 
         //No need for callback manager just static function here
 
-//        glfwSetKeyCallback(_window, key_callback);
+        glfwSetKeyCallback(_window, [](GLFWwindow *window, int key, int scancode, int action, int mods){
+            GLFW *p = getProxy(window);
+            if (action == GLFW_PRESS) {
+                switch (key) {
+                    case GLFW_KEY_ESCAPE:
+                        glfwSetWindowShouldClose(window, true);
+                        FLOG_INFO("escape key pressed, window should close");
+                        break;
+                    case GLFW_KEY_R:
+                        FLOG_INFO("shader reload not yet implemented");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
 
         //END CALLBACKS
@@ -95,7 +110,7 @@ namespace Proxy {
     }
 
     glfw::EventQueue &GLFW::get_queue() {
-        return _queue;
+//        return _queue;
     }
 
 
