@@ -10,8 +10,8 @@
 #include <OpenGL/gl3.h>
 
 #include <utility>
+#include <glm/vec3.hpp>
 #include "ProxyInterface.h"
-#include "../glfw/EventQueue.h"
 
 namespace Proxy {
 
@@ -21,20 +21,25 @@ public:
     ~GLFW();
 
     GLFWwindow *getWindow() const;
-
-    glfw::EventQueue &get_queue();
+    void        bindKeyCallback(GLFWkeyfun);
+    void        bindCursorPosCallback(GLFWcursorposfun cursor);
 
 private:
     GLFWwindow              *_window;
     const char              *_title;
     std::pair<int, int>     _size;
     std::pair<int, int>     _framebuffer;
-//    glfw::EventQueue        _queue;
+    glm::vec3               _eye;
+public:
+    const glm::vec3 &getEye() const;
+
+    void setEye(const glm::vec3 &eye);
+
+private:
 
     void PreInit() override;
     void Init() override;
     void PostInit() override;
-
 };
 
 }

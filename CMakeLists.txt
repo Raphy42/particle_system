@@ -14,7 +14,7 @@ include_directories(glfw-3.2.1/include)
 include_directories(nuklear)
 include_directories(~/.brew/include)
 
-set(SOURCE_FILES main.cpp utils/FileLogger.cpp utils/FileLogger.h proxies/GLFW.cpp proxies/GLFW.h proxies/ProxyInterface.h utils/FrameCounter.cpp utils/FrameCounter.h opengl/Program.cpp opengl/Program.h proxies/OpenCL.cpp proxies/OpenCL.h)
+set(SOURCE_FILES main.cpp utils/FileLogger.cpp utils/FileLogger.h proxies/GLFW.cpp proxies/GLFW.h proxies/ProxyInterface.h utils/FrameCounter.cpp utils/FrameCounter.h opengl/Program.cpp opengl/Program.h proxies/OpenCL.cpp proxies/OpenCL.h opengl/Buffer.h opengl/GLFactory.cpp opengl/GLFactory.h)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(particle_system ${SOURCE_FILES})
 

@@ -1,4 +1,4 @@
-Log started @ 03-11-2016 16-50-33
+Log started @ 05-11-2016 13-23-32
 [INFO]: main start
 [INFO]: glfw init
 [INFO]: Test
@@ -14,11 +14,11 @@ Log started @ 03-11-2016 16-50-33
 [INFO]: CL_SUCCESS: clBuildProgram
 [INFO]: CL_SUCCESS: clCreateKernel
 [INFO]: CL_SUCCESS: clCreateKernel
+[INFO]: CL_SUCCESS: clCreateKernel
 [INFO]: CL_SUCCESS: clCreateFromGLBuffer
 [INFO]: CL_SUCCESS: clCreateBuffer
 [INFO]: CL_SUCCESS: clSetKernelArg
 [INFO]: CL_SUCCESS: clEnqueueAcquireGLObjects
 [INFO]: CL_SUCCESS: clEnqueueNDRangeKernel
 [INFO]: CL_SUCCESS: clEnqueueReleaseGLObjects
-[INFO]: escape key pressed, window should close
 [INFO]: glfwTerminate

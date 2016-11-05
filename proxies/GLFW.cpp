@@ -17,8 +17,11 @@ namespace Proxy {
         FLOG_INFO(message);
     }
 
-    GLFW::GLFW(std::pair<int, int> size, const char *title, std::pair<GLint, GLint> version) : _size(size),
-                                                                                               _title(title) {
+    GLFW::GLFW(std::pair<int, int> size, const char *title, std::pair<GLint, GLint> version) :
+            _size(size),
+            _title(title),
+            _eye(0, 0, 0)
+    {
 
         glfwSetErrorCallback(&error_callback);
 
@@ -54,47 +57,10 @@ namespace Proxy {
         return (static_cast<GLFW *>(glfwGetWindowUserPointer(w)));
     }
 
-    static void key_callback(GLFWwindow *w, int key, int scancode, int action, int mods) {
-        GLFW *p = getProxy(w);
-        if (action == GLFW_PRESS) {
-            switch (key) {
-                case GLFW_KEY_ESCAPE:
-                    glfwSetWindowShouldClose(w, true);
-                    FLOG_INFO("escape key pressed, window should close");
-                case GLFW_KEY_R:
-                    FLOG_INFO("shader reload not yet implemented");
-                default:
-                    break;
-            }
-        }
-    }
-
     void GLFW::PostInit() {
         glfwSetWindowUserPointer(_window, this);
         glfwMakeContextCurrent(_window);
         glfwGetFramebufferSize(_window, &_framebuffer.first, &_framebuffer.second);
-
-        //No need for callback manager just static function here
-
-        glfwSetKeyCallback(_window, [](GLFWwindow *window, int key, int scancode, int action, int mods){
-            GLFW *p = getProxy(window);
-            if (action == GLFW_PRESS) {
-                switch (key) {
-                    case GLFW_KEY_ESCAPE:
-                        glfwSetWindowShouldClose(window, true);
-                        FLOG_INFO("escape key pressed, window should close");
-                        break;
-                    case GLFW_KEY_R:
-                        FLOG_INFO("shader reload not yet implemented");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-
-        //END CALLBACKS
 
         glViewport(0, 0, _framebuffer.first, _framebuffer.second);
     }
@@ -109,9 +75,20 @@ namespace Proxy {
         FLOG_INFO("glfwTerminate");
     }
 
-    glfw::EventQueue &GLFW::get_queue() {
-//        return _queue;
+    void GLFW::bindKeyCallback(GLFWkeyfun key) {
+        glfwSetKeyCallback(_window, key);
     }
 
+    void GLFW::bindCursorPosCallback(GLFWcursorposfun cursor) {
+        glfwSetCursorPosCallback(_window, cursor);
+    }
+
+    const glm::vec3 &GLFW::getEye() const {
+        return _eye;
+    }
+
+    void GLFW::setEye(const glm::vec3 &eye) {
+        _eye = eye;
+    }
 
 }
