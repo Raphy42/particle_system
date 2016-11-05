@@ -12,6 +12,7 @@
 #include <utility>
 #include <glm/vec3.hpp>
 #include "ProxyInterface.h"
+#include "../utils/FPSCamera.h"
 
 namespace Proxy {
 
@@ -23,19 +24,17 @@ public:
     GLFWwindow *getWindow() const;
     void        bindKeyCallback(GLFWkeyfun);
     void        bindCursorPosCallback(GLFWcursorposfun cursor);
+    void        bindScrollCallback(GLFWscrollfun scroll);
+
+    const FPSCamera &getCamera() const;
+    void setCamera(const FPSCamera &camera);
 
 private:
     GLFWwindow              *_window;
     const char              *_title;
     std::pair<int, int>     _size;
     std::pair<int, int>     _framebuffer;
-    glm::vec3               _eye;
-public:
-    const glm::vec3 &getEye() const;
-
-    void setEye(const glm::vec3 &eye);
-
-private:
+    FPSCamera               _camera;
 
     void PreInit() override;
     void Init() override;

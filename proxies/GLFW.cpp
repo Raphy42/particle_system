@@ -19,8 +19,7 @@ namespace Proxy {
 
     GLFW::GLFW(std::pair<int, int> size, const char *title, std::pair<GLint, GLint> version) :
             _size(size),
-            _title(title),
-            _eye(0, 0, 0)
+            _title(title)
     {
 
         glfwSetErrorCallback(&error_callback);
@@ -83,12 +82,16 @@ namespace Proxy {
         glfwSetCursorPosCallback(_window, cursor);
     }
 
-    const glm::vec3 &GLFW::getEye() const {
-        return _eye;
+    const FPSCamera &GLFW::getCamera() const {
+        return _camera;
     }
 
-    void GLFW::setEye(const glm::vec3 &eye) {
-        _eye = eye;
+    void GLFW::setCamera(const FPSCamera &camera) {
+        _camera = camera;
+    }
+
+    void GLFW::bindScrollCallback(GLFWscrollfun scroll) {
+        glfwSetScrollCallback(_window, scroll);
     }
 
 }
