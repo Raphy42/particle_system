@@ -230,7 +230,7 @@ void Proxy::OpenCL::CreateKernelFromFile(const char *filename, const char *kerne
     cl_kernel kernel;
     kernel = clCreateKernel(_program, kernel_name, &_status);
     STATUS("clCreateKernel");
-    _kernels.push_back(kernel);
+    _kernels[kernel_name] = kernel;
 }
 
 void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
@@ -238,7 +238,7 @@ void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
     cl_kernel kernel;
     kernel = clCreateKernel(_program, kernel_name, &_status);
     STATUS("clCreateKernel");
-    _kernels.push_back(kernel);
+    _kernels[kernel_name] = kernel;
 }
 
 cl_mem Proxy::OpenCL::CreateBufferFromVBO(cl_GLuint vbo, cl_mem_flags permission)
@@ -259,11 +259,11 @@ const cl_command_queue Proxy::OpenCL::getQueue() const {
     return _queue;
 }
 
-const std::vector<cl_kernel> &Proxy::OpenCL::getKernels() const {
-    return _kernels;
-}
-
 const void Proxy::OpenCL::getStatus(cl_int status, const char *caller) {
     cl_checkStatus(status, caller);
+}
+
+const cl_kernel Proxy::OpenCL::getKernel(std::string kernel) {
+    return _kernels[kernel];
 }
 

@@ -14,6 +14,8 @@
 
 #define PARTICLE_COUNT 3000000
 
+float mouse_x, mouse_y;
+
 int main(void)
 {
     FLOG_INFO("main start");
@@ -37,11 +39,11 @@ int main(void)
     cl_mem pos = cl.CreateBufferFromVBO(buffer->_vbo, CL_MEM_READ_WRITE);
     cl_mem cl_cursor = cl.CreateBuffer(sizeof(cl_cursor), CL_MEM_COPY_HOST_PTR, cursor_pos);
 
-    cl.getStatus(clSetKernelArg(cl.getKernels()[0], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_sphere"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
     size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
-    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[0], 1, nullptr,
+    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_sphere"), 1, nullptr,
                                         &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
@@ -93,9 +95,13 @@ int main(void)
             lastY = ypos;
             first = false;
         }
-        GLfloat xoffset = xpos - lastX, yoffset = ypos - lastY;
+        GLfloat xoffset = static_cast<GLfloat>(xpos - lastX), yoffset = static_cast<GLfloat>(ypos - lastY);
         lastX = xpos;
         lastY = ypos;
+        //DIRTY
+        mouse_x = xpos;
+        mouse_x = ypos;
+        //DIRTY
         cam.mouseEvent(xoffset, yoffset);
         ctx->setCamera(cam);
     });
@@ -112,20 +118,21 @@ int main(void)
     {
         glm::mat4 view = glfw.getCamera().getViewMat4();
         glm::mat4 mvp = perspective * view * model;
-//        glfwGetCursorPos(glfw.getWindow(), (double *) &cursor_pos->s[0], (double *) &cursor_pos->s[1]);
-//        cursor_pos->s[2] = 1.0f;
-//        cursor_pos->s[3] = 1.0f;
-//
-//        glFinish();
-//
-//        cl.getStatus(clSetKernelArg(cl.getKernels()[1], 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
-//        cl.getStatus(clSetKernelArg(cl.getKernels()[1], 1, sizeof(cl_mem), (void *)&cl_cursor), "clSetKernelArg");
-//        cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
-//        cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernels()[1], 1, nullptr,
-//                                            &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
-//        cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
-//
-//        clFinish(cl.getQueue());
+        cursor_pos->s[0] = mouse_x;
+        cursor_pos->s[1] = mouse_y;
+        cursor_pos->s[2] = 1.0f;
+        cursor_pos->s[3] = 1.0f;
+
+        glFinish();
+
+        cl.getStatus(clSetKernelArg(cl.getKernel("particle"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+        cl.getStatus(clSetKernelArg(cl.getKernel("particle"), 1, sizeof(cl_mem), (void *)&cl_cursor), "clSetKernelArg");
+        cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
+        cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle"), 1, nullptr,
+                                            &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
+        cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
+
+        clFinish(cl.getQueue());
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
