@@ -1,8 +1,0 @@
-Log started @ 08-11-2016 19-53-36
-[INFO]: main start
-[INFO]: glfw init
-[INFO]: Test
-[INFO]: glfwCreateWindow success
-[INFO]: 4.1 NVIDIA-10.10.14 310.42.25f02
-[INFO]: NVIDIA GeForce GT 750M OpenGL Engine
-[INFO]: glfwTerminate
