@@ -12,9 +12,9 @@ __kernel void particle_init_cube(__global float4 *pos)
     const int step_z = id / (size * size);
 
     pos[id] = (float4){
-        LINEAR_CONVERSION(step_x, 0, size, -2, 2),
-        LINEAR_CONVERSION(step_y, 0, size, -2, 2),
-        LINEAR_CONVERSION(step_z, 0, size, -2, 2),
+        LINEAR_CONVERSION(step_x, 0, size, -1, 1),
+        LINEAR_CONVERSION(step_y, 0, size, -1, 1),
+        LINEAR_CONVERSION(step_z, 0, size, -1, 1),
         1.0f
     };
 }
@@ -39,18 +39,55 @@ __kernel void particle_init_sphere(__global float4 *pos)
 	pos[id] = normalize(pos[id]);
 }
 
-__kernel void particle(__global float4 *pos, __global float4 *cursor)
+__kernel void particle(__global float4 *pos, __global float4 *vel, __global float4 *cursor, __global float *delta)
+{
+    uint const id = get_global_id(0);
+
+    float4 l_vel = vel[id];
+    float4 l_pos = pos[id];
+
+    float d = distance(*cursor, l_pos);
+    pos[id] = *cursor;
+}
+
+float4 attraction(float4 pos, float4 attractor)
+{
+    float4 delta = attractor - pos;
+    const float damp = 0.5f;
+    float dDampedDot = dot(delta, delta) + damp;
+    float invDist = 1.0f / sqrt(dDampedDot);
+    float invDistCubed = invDist * invDist * invDist;
+    return (delta * (invDistCubed * 0.0035f));
+}
+
+float4 repulsion(float4 pos, float4 repulsor)
+{
+    float4 delta = repulsor - pos;
+    float targetDistance = sqrt(dot(delta, delta));
+    return (delta * (1.0f / (targetDistance * targetDistance * targetDistance)) * -0.000035f);
+}
+
+__kernel void particle_update(__global float4 *pos, __global float4 *vel, __global float4 *cursor, __global float *delta_t)
 {
     const uint id = get_global_id(0);
-    float x_distance = cursor->x - pos[id][0];
-    float y_distance = cursor->y - pos[id][1];
-    float z_distance = cursor->z - pos[id][2];
-    float distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+    const float bounds = 1.f;
+    float4 vVel = vel[id];
+    float4 vPos = pos[id];
 
-    if (distance > 1.0f)
-    {
-        pos[id][0] += x_distance * 0.5f;
-        pos[id][1] += y_distance * 0.5f;
-        pos[id][2] += z_distance * 0.5f;
-    }
+    float4 destPos = *cursor;
+
+    float4 delta = destPos - vPos;
+    float targetDistance = sqrt(dot(delta, delta));
+
+    vVel += repulsion(vPos, destPos) * 0.5f;
+    vPos += vVel * *delta_t / 2.f; //DELTA HERE
+
+    if ((vPos.x < -bounds) || (vPos.x > bounds)
+        || (vPos.y < -bounds) || (vPos.y > bounds)
+        || (vPos.z < -bounds) || (vPos.z > bounds))
+        vVel = (-vVel * 0.1f) + attraction(vPos, destPos) * 12.f;
+    else
+        pos[id] = vPos;
+    pos[id].w = 1.f;
+    vel[id] = vVel;
 }

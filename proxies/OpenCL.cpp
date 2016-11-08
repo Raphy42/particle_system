@@ -120,14 +120,13 @@ static std::vector<std::string> cl_errors = {
 
 inline void cl_checkStatus(cl_int status, const char *caller)
 {
+    if (status == CL_SUCCESS)
+        return;
     const unsigned long errorCount = cl_errors.size();
     const int index = -status;
     std::string error = cl_errors[index];
     error.append(": ");
-    if (status != CL_SUCCESS)
-        FLOG_CRITICAL(error + caller);
-    else
-        FLOG_INFO(error + caller);
+    FLOG_CRITICAL(error + caller);
 }
 
 #define STATUS(s)    (cl_checkStatus(_status, s))
@@ -172,7 +171,7 @@ void Proxy::OpenCL::Init() {
         size_t size;
         _status = clGetGLContextInfoKHR(properties, CL_DEVICES_FOR_GL_CONTEXT_KHR,
             32 * sizeof(cl_device_id), devices, &size);
-        _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
+        _context = clCreateContext(properties, 0, devices, NULL, 0, 0);
 }
 #else
 #error "Cant init OpenCL as it is not yet implemented for other platforms: test with #define LEGACY_SALE in main"
@@ -183,7 +182,7 @@ void Proxy::OpenCL::PostInit() {
     STATUS("clCreateCommandQueue");
 }
 
-Proxy::OpenCL::OpenCL() {
+Proxy::OpenCL::OpenCL() : _kernels(new std::unordered_map<std::string, cl_kernel>) {
     PreInit();
     Init();
     PostInit();
@@ -230,7 +229,7 @@ void Proxy::OpenCL::CreateKernelFromFile(const char *filename, const char *kerne
     cl_kernel kernel;
     kernel = clCreateKernel(_program, kernel_name, &_status);
     STATUS("clCreateKernel");
-    _kernels[kernel_name] = kernel;
+    _kernels->emplace(kernel_name, kernel);
 }
 
 void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
@@ -238,7 +237,7 @@ void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
     cl_kernel kernel;
     kernel = clCreateKernel(_program, kernel_name, &_status);
     STATUS("clCreateKernel");
-    _kernels[kernel_name] = kernel;
+    _kernels->emplace(kernel_name, kernel);
 }
 
 cl_mem Proxy::OpenCL::CreateBufferFromVBO(cl_GLuint vbo, cl_mem_flags permission)
@@ -263,7 +262,7 @@ const void Proxy::OpenCL::getStatus(cl_int status, const char *caller) {
     cl_checkStatus(status, caller);
 }
 
-const cl_kernel Proxy::OpenCL::getKernel(std::string kernel) {
-    return _kernels[kernel];
+const cl_kernel Proxy::OpenCL::getKernel(std::string kernel) const {
+    return _kernels->at(kernel);
 }
 

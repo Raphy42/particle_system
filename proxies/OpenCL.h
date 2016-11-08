@@ -24,7 +24,7 @@ namespace Proxy {
         cl_mem CreateBuffer(size_t size, cl_mem_flags permission, void *host_ptr);
 
         const cl_command_queue getQueue() const;
-        const cl_kernel getKernel(std::string kernel);
+        const cl_kernel getKernel(std::string kernel) const;
         const void getStatus(cl_int status, const char *caller);
 
     private:
@@ -36,7 +36,7 @@ namespace Proxy {
         cl_command_queue                            _queue;
         cl_int                                      _status;
         cl_program                                  _program;
-        std::unordered_map<std::string, cl_kernel>  _kernels;
+        std::unique_ptr<std::unordered_map<std::string, cl_kernel>>  _kernels;
 
         void PreInit() override;
         void Init() override;

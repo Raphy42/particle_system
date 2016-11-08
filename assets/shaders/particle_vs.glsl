@@ -12,4 +12,5 @@ void main() {
     gl_Position = mvp * pos;
     gl_PointSize = gl_Position.z;
     color = gl_Position;
+    gl_PointSize = pos.w;
 }
