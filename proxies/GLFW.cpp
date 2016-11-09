@@ -95,4 +95,8 @@ namespace Proxy {
         glfwSetScrollCallback(_window, scroll);
     }
 
+    void GLFW::bindMouseCallback(GLFWmousebuttonfun button) {
+        glfwSetMouseButtonCallback(_window, button);
+    }
+
 }

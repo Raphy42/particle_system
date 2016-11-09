@@ -25,6 +25,7 @@ public:
     void        bindKeyCallback(GLFWkeyfun);
     void        bindCursorPosCallback(GLFWcursorposfun cursor);
     void        bindScrollCallback(GLFWscrollfun scroll);
+    void        bindMouseCallback(GLFWmousebuttonfun button);
 
     const FPSCamera &getCamera() const;
     void setCamera(const FPSCamera &camera);

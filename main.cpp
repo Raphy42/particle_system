@@ -22,15 +22,18 @@ template <typename T>
 
 float mouse_x, mouse_y;
 bool stop = true;
+float attractor = 12.f;
 
 glm::vec4       get3DNDC(glm::mat4 view, glm::mat4 projection)
 {
     float x = 2.0f * mouse_x / WIDTH<float> - 1;
     float y = 1.0f - (2.0f * mouse_y) / HEIGHT<float>;
 
-    glm::mat4 viewProjectionInverse = glm::inverse(view);
+    glm::mat4 viewProjectionInverse = glm::inverse(view * projection);
     glm::vec4 point3D(x, y, 0.f, 1.f);
-    return glm::normalize(view * point3D);
+    glm::vec4 pt = glm::normalize(viewProjectionInverse * point3D);
+    pt.w = attractor;
+    return pt;
 }
 
 int main(void)
@@ -39,9 +42,9 @@ int main(void)
     Proxy::GLFW glfw(std::pair<int, int>(WIDTH<int>, HEIGHT<int>), "Test", std::pair<int, int>(4, 1));
     Proxy::OpenCL cl;
     cl.CreateKernelFromFile("./assets/kernels/particle.cl", "particle_init_sphere");
-    cl.CreateKernelFromProgram("particle");
     cl.CreateKernelFromProgram("particle_init_cube");
     cl.CreateKernelFromProgram("particle_update");
+    cl.CreateKernelFromProgram("particle_update_flow");
     OpenGL::Program program("./assets/shaders/particle_vs.glsl", "./assets/shaders/particle_fs.glsl");
 
     GLFactory factory;
@@ -77,11 +80,11 @@ int main(void)
     cl_mem vel = cl.CreateBufferFromVBO(vbos[1], CL_MEM_READ_WRITE);
     cl_mem delta = cl.CreateBuffer(sizeof(float), CL_MEM_READ_ONLY, nullptr);
 
-    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_cube"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_sphere"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
     size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
-    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_cube"), 1, nullptr,
+    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_sphere"), 1, nullptr,
                                         &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
@@ -91,6 +94,7 @@ int main(void)
     glEnable(GL_PROGRAM_POINT_SIZE);
 
     GLint mvp_id = program.uniform("mvp");
+    GLint center_id = program.uniform("center");
 
     glm::mat4 model;
     glm::mat4 perspective = glm::perspective(68.f, WIDTH<float> / HEIGHT<float>, 0.1f, 1000.f);
@@ -125,8 +129,8 @@ int main(void)
     });
 
     glfw.bindCursorPosCallback([](GLFWwindow *window, double xpos, double ypos){
-//        Proxy::GLFW *ctx = static_cast<Proxy::GLFW *>(glfwGetWindowUserPointer(window));
-//        FPSCamera cam = ctx->getCamera();
+        Proxy::GLFW *ctx = static_cast<Proxy::GLFW *>(glfwGetWindowUserPointer(window));
+        FPSCamera cam = ctx->getCamera();
         static bool first = true;
         static double lastX, lastY;
 
@@ -142,6 +146,10 @@ int main(void)
         //DIRTY
         mouse_x = static_cast<float>(xpos);
         mouse_y = static_cast<float>(ypos);
+        if (!stop) {
+            cam.mouseScrollEvent(yoffset);
+            ctx->setCamera(cam);
+        }
     });
 
     glfw.bindScrollCallback([](GLFWwindow *window, double xoffset, double yoffset){
@@ -151,6 +159,12 @@ int main(void)
         cam.mouseScrollEvent(static_cast<GLfloat>(yoffset));
         ctx->setCamera(cam);
     });
+    glfw.bindMouseCallback([](GLFWwindow *window, int button, int action, int mods){
+        if (action == GLFW_PRESS)
+            attractor = 50.f;
+        else
+            attractor = 12.f;
+    });
 
     cl_kernel update = cl.getKernel("particle_update");
 
@@ -158,8 +172,6 @@ int main(void)
     {
         deltaTime = static_cast<float>(glfwGetTime());
         glm::mat4 view = glfw.getCamera().getViewMat4();
-//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.4f, glm::vec3(0.0f, 0.005f, 0.f));
-//        model *= rotate;
         glm::mat4 mvp = perspective * view * model;
         glm::vec4 cursor = get3DNDC(view, perspective);
 //
@@ -196,6 +208,7 @@ int main(void)
 
         program.bind();
         glUniformMatrix4fv(mvp_id, 1, GL_FALSE, glm::value_ptr(mvp));
+        glUniform4fv(center_id, 1, glm::value_ptr(cursor));
         glBindVertexArray(buffer->_vao);
         glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
         glBindVertexArray(0);

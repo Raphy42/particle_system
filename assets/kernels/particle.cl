@@ -37,18 +37,7 @@ __kernel void particle_init_sphere(__global float4 *pos)
 	    sin(phi) * r,
 	    1.f};
 	pos[id] = normalize(pos[id]);
-}
-
-__kernel void particle(__global float4 *pos, __global float4 *vel, __global float4 *cursor, __global float *delta)
-{
-    uint const id = get_global_id(0);
-
-    float4 l_vel = vel[id];
-    float4 l_pos = pos[id];
-
-    float d = distance(*cursor, l_pos);
-    pos[id] = *cursor;
-}
+}   
 
 float4 attraction(float4 pos, float4 attractor)
 {
@@ -73,21 +62,40 @@ __kernel void particle_update(__global float4 *pos, __global float4 *vel, __glob
     const float bounds = 1.f;
     float4 vVel = vel[id];
     float4 vPos = pos[id];
-
     float4 destPos = *cursor;
 
-    float4 delta = destPos - vPos;
-    float targetDistance = sqrt(dot(delta, delta));
+    float weight = destPos.w;
+    destPos.w = 1.0f;
 
-    vVel += repulsion(vPos, destPos) * 0.5f;
+    vVel += repulsion(vPos, destPos) * 1 / weight;
     vPos += vVel * *delta_t / 2.f; //DELTA HERE
 
     if ((vPos.x < -bounds) || (vPos.x > bounds)
         || (vPos.y < -bounds) || (vPos.y > bounds)
         || (vPos.z < -bounds) || (vPos.z > bounds))
-        vVel = (-vVel * 0.1f) + attraction(vPos, destPos) * 12.f;
+        vVel = (-vVel * 0.1f) + attraction(vPos, destPos) * weight;
     else
         pos[id] = vPos;
     pos[id].w = 1.f;
     vel[id] = vVel;
+}
+
+__kernel void particle_update_flow(__global float4 *pos, __global float4 *vel, __global float4 *cursor, __global float *delta_t)
+{
+    float4 a;
+    float4 center = *cursor;
+    float4 tempCurrPos;
+    const uint id = get_global_id(0);
+    float4 vPos = pos[id];
+
+    if(center.w < 0.0f){
+      // The direction of this vector corresponds to the direction of the gravity.
+      // A zero vector will freeze the particles when not interacted with them.
+      a = (float4){0,-0.125,0,0};
+    } else {
+      a = center - vPos - (float4){0,-1,0,0};
+      a = normalize(a) * 5 * length(vPos);
+    }
+    tempCurrPos  = 1.99f * vPos - 0.99f * vPos + a * 0.5f;
+    pos[id] = tempCurrPos;
 }
