@@ -8,8 +8,8 @@
 #include <OpenGL/gl3.h>
 
 struct Buffer {
-    GLuint      _vao;
-    GLuint      _vbo;
+    GLuint                      _vao;
+    std::vector<GLuint>         _vbo;
 };
 
 #endif //PARTICLE_SYSTEM_BUFFER_H

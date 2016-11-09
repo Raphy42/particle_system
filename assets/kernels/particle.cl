@@ -12,9 +12,9 @@ __kernel void particle_init_cube(__global float4 *pos)
     const int step_z = id / (size * size);
 
     pos[id] = (float4){
-        LINEAR_CONVERSION(step_x, 0, size, -1, 1),
-        LINEAR_CONVERSION(step_y, 0, size, -1, 1),
-        LINEAR_CONVERSION(step_z, 0, size, -1, 1),
+        LINEAR_CONVERSION(step_x, 0, size, -.5f, .5f),
+        LINEAR_CONVERSION(step_y, 0, size, -.5f, .5f),
+        LINEAR_CONVERSION(step_z, 0, size, -.5f, .5f),
         1.0f
     };
 }

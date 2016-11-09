@@ -1,9 +1,9 @@
 #version 410 core
 
-in vec4 color;
+in vec4 speed;
 
 out vec4 colour;
 
 void main() {
-    colour = vec4(1, 1, 1, 1);
+	colour = normalize(speed) / 2.f;
 }

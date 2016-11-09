@@ -13,24 +13,24 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <OpenCL/opencl.h>
 
-#define PARTICLE_COUNT 10000000
+#define PARTICLE_COUNT 5000000
 template <typename T>
-    constexpr T WIDTH = 2000;
+    constexpr T WIDTH = 2400;
 
 template <typename T>
-    constexpr T HEIGHT = 1000;
+    constexpr T HEIGHT = 1200;
 
 float mouse_x, mouse_y;
-bool stop = false;
+bool stop = true;
 
 glm::vec4       get3DNDC(glm::mat4 view, glm::mat4 projection)
 {
     float x = 2.0f * mouse_x / WIDTH<float> - 1;
     float y = 1.0f - (2.0f * mouse_y) / HEIGHT<float>;
 
-    glm::mat4 viewProjectionInverse = glm::inverse(projection * view);
-    glm::vec4 point3D(x, y, -1.0f, 1.f);
-    return glm::normalize(viewProjectionInverse * point3D);
+    glm::mat4 viewProjectionInverse = glm::inverse(view);
+    glm::vec4 point3D(x, y, 0.f, 1.f);
+    return glm::normalize(view * point3D);
 }
 
 int main(void)
@@ -47,14 +47,34 @@ int main(void)
     GLFactory factory;
 
     factory.setUsage(GL_STATIC_DRAW);
-    std::unique_ptr<Buffer> buffer(factory.RegisterF(nullptr, sizeof(float) * 4 * PARTICLE_COUNT, 4, GL_ARRAY_BUFFER));
+    Buffer *buffer = new Buffer();
+
+    glGenVertexArrays(1, &buffer->_vao);
+    GLuint vbos[2];
+    glGenBuffers(2, vbos);
+
+    glBindVertexArray(buffer->_vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(0);
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0);
+
     glFinish();
 
     float deltaTime = static_cast<float >(glfwGetTime());
 
-    cl_mem pos = cl.CreateBufferFromVBO(buffer->_vbo, CL_MEM_READ_WRITE);
+    cl_mem pos = cl.CreateBufferFromVBO(vbos[0], CL_MEM_READ_WRITE);
     cl_mem cl_cursor = cl.CreateBuffer(sizeof(float) * 4, CL_MEM_READ_ONLY, nullptr);
-    cl_mem vel = cl.CreateBuffer(sizeof(float) * 4 * PARTICLE_COUNT, CL_MEM_READ_WRITE, nullptr);
+    cl_mem vel = cl.CreateBufferFromVBO(vbos[1], CL_MEM_READ_WRITE);
     cl_mem delta = cl.CreateBuffer(sizeof(float), CL_MEM_READ_ONLY, nullptr);
 
     cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_cube"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
@@ -62,7 +82,7 @@ int main(void)
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
     size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
     cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_cube"), 1, nullptr,
-                                        &global_item_size, &local_item_size, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
+                                        &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
     clFinish(cl.getQueue());
@@ -138,6 +158,8 @@ int main(void)
     {
         deltaTime = static_cast<float>(glfwGetTime());
         glm::mat4 view = glfw.getCamera().getViewMat4();
+//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.4f, glm::vec3(0.0f, 0.005f, 0.f));
+//        model *= rotate;
         glm::mat4 mvp = perspective * view * model;
         glm::vec4 cursor = get3DNDC(view, perspective);
 //
@@ -157,17 +179,19 @@ int main(void)
             cl.getStatus(clSetKernelArg(update, 3, sizeof(cl_mem), (void *)&delta), "clSetKernelArg - delta");
 
             cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
+            cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &vel, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
 
             cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), update, 1, nullptr,
                                                 &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
 
             cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
+            cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &vel, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 //
 
             clFinish(cl.getQueue());
         }
 
-        glClearColor(0.f, 0.f, 0.f, 1.f);
+        glClearColor(1.f, 1.f, 1.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.bind();
@@ -177,6 +201,7 @@ int main(void)
         glBindVertexArray(0);
         glfwSwapBuffers(glfw.getWindow());
         glfwPollEvents();
+        glUseProgram(0);
     }
     return (0);
 }
