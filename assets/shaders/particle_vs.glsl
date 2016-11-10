@@ -16,5 +16,5 @@ void main() {
     gl_PointSize = gl_Position.z;
     gl_PointSize = pos.w;
     speed = vel;
-    o_center = center;
+    o_center = pos - center;
 }

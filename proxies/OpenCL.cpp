@@ -232,6 +232,12 @@ void Proxy::OpenCL::CreateKernelFromFile(const char *filename, const char *kerne
     _kernels->emplace(kernel_name, kernel);
 }
 
+void Proxy::OpenCL::CreateKernels(std::vector<const char *> kernel_name)
+{
+    for (auto it : kernel_name)
+        CreateKernelFromProgram(it);
+}
+
 void Proxy::OpenCL::CreateKernelFromProgram(const char *kernel_name)
 {
     cl_kernel kernel;

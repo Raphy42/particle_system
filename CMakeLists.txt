@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 enable_language(CXX)
 project(particle_system)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -framework OpenCL -framework Cocoa -framework OpenGL -framework IOKit")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -framework OpenCL -framework Cocoa -framework OpenGL -framework IOKit")
 
 find_package(OpenCL REQUIRED)
 include_directories(${OPENCL_INCLUDE_DIR})

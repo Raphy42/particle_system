@@ -7,21 +7,17 @@
 #include "proxies/OpenCL.h"
 #include "opengl/Buffer.h"
 #include "opengl/GLFactory.h"
-#include "utils/FPSCamera.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <OpenCL/opencl.h>
 
-#define PARTICLE_COUNT 5000000
+#define PARTICLE_COUNT 1000000
 template <typename T>
-    constexpr T WIDTH = 2400;
+    constexpr T WIDTH = 2600;
 
 template <typename T>
-    constexpr T HEIGHT = 1200;
+    constexpr T HEIGHT = 1300;
 
 float mouse_x, mouse_y;
-bool stop = true;
+bool stop = true, grab = false;
 float attractor = 12.f;
 
 glm::vec4       get3DNDC(glm::mat4 view, glm::mat4 projection)
@@ -83,7 +79,7 @@ int main(void)
     cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_sphere"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
-    size_t global_item_size = PARTICLE_COUNT, local_item_size = 1;
+    size_t global_item_size = PARTICLE_COUNT;
     cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_sphere"), 1, nullptr,
                                         &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
@@ -122,6 +118,10 @@ int main(void)
                 case GLFW_KEY_SPACE:
                     stop = action == GLFW_PRESS == !stop;
                     break;
+                case GLFW_KEY_LEFT_SHIFT:
+                case GLFW_KEY_RIGHT_SHIFT:
+                    grab = action == GLFW_PRESS == !grab;
+                    break;
                 default:
                     break;
             }
@@ -146,8 +146,9 @@ int main(void)
         //DIRTY
         mouse_x = static_cast<float>(xpos);
         mouse_y = static_cast<float>(ypos);
-        if (!stop) {
-            cam.mouseScrollEvent(yoffset);
+        if (grab)
+        {
+            cam.mouseEvent(xoffset, yoffset);
             ctx->setCamera(cam);
         }
     });
@@ -166,7 +167,7 @@ int main(void)
             attractor = 12.f;
     });
 
-    cl_kernel update = cl.getKernel("particle_update");
+    cl_kernel update = cl.getKernel("particle_update_flow");
 
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
@@ -174,7 +175,6 @@ int main(void)
         glm::mat4 view = glfw.getCamera().getViewMat4();
         glm::mat4 mvp = perspective * view * model;
         glm::vec4 cursor = get3DNDC(view, perspective);
-//
         if (!stop)
         {
             glFinish();
@@ -198,12 +198,11 @@ int main(void)
 
             cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
             cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &vel, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
-//
 
             clFinish(cl.getQueue());
         }
 
-        glClearColor(1.f, 1.f, 1.f, 1.f);
+        glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.bind();

@@ -20,6 +20,8 @@ namespace Proxy {
 
         void CreateKernelFromFile(const char *filename, const char *kernel_name);
         void CreateKernelFromProgram(const char *kernel_name);
+        void CreateKernels(std::vector<const char *> kernel_name);
+
         cl_mem CreateBufferFromVBO(cl_GLuint vbo, cl_mem_flags permission);
         cl_mem CreateBuffer(size_t size, cl_mem_flags permission, void *host_ptr);
 
@@ -28,20 +30,19 @@ namespace Proxy {
         const void getStatus(cl_int status, const char *caller);
 
     private:
-        cl_uint                                     _platformCount;
-        cl_platform_id                              *_platforms;
-        cl_device_id                                _device;
-        cl_uint                                     _deviceCount;
-        cl_context                                  _context;
-        cl_command_queue                            _queue;
-        cl_int                                      _status;
-        cl_program                                  _program;
-        std::unique_ptr<std::unordered_map<std::string, cl_kernel>>  _kernels;
+        cl_uint                                                         _platformCount;
+        cl_platform_id                                                  *_platforms;
+        cl_device_id                                                    _device;
+        cl_uint                                                         _deviceCount;
+        cl_context                                                      _context;
+        cl_command_queue                                                _queue;
+        cl_int                                                          _status;
+        cl_program                                                      _program;
+        std::unique_ptr<std::unordered_map<std::string, cl_kernel>>     _kernels;
 
         void PreInit() override;
         void Init() override;
         void PostInit() override;
-
 
 
     };

@@ -42,10 +42,11 @@ __kernel void particle_init_sphere(__global float4 *pos)
 float4 attraction(float4 pos, float4 attractor)
 {
     float4 delta = attractor - pos;
-    const float damp = 0.5f;
+    const float damp = 100.f;
     float dDampedDot = dot(delta, delta) + damp;
     float invDist = 1.0f / sqrt(dDampedDot);
-    float invDistCubed = invDist * invDist * invDist;
+//    float invDist = dDampedDot;
+    float invDistCubed = invDist * invDist;
     return (delta * (invDistCubed * 0.0035f));
 }
 
@@ -67,13 +68,13 @@ __kernel void particle_update(__global float4 *pos, __global float4 *vel, __glob
     float weight = destPos.w;
     destPos.w = 1.0f;
 
-    vVel += repulsion(vPos, destPos) * 1 / weight;
+    vVel -= attraction(vPos, destPos) * 1 / weight;
     vPos += vVel * *delta_t / 2.f; //DELTA HERE
 
     if ((vPos.x < -bounds) || (vPos.x > bounds)
         || (vPos.y < -bounds) || (vPos.y > bounds)
         || (vPos.z < -bounds) || (vPos.z > bounds))
-        vVel = (-vVel * 0.1f) + attraction(vPos, destPos) * weight;
+        vVel = (-vVel * 0.1f) - repulsion(vPos, destPos) * weight;
     else
         pos[id] = vPos;
     pos[id].w = 1.f;
@@ -82,20 +83,15 @@ __kernel void particle_update(__global float4 *pos, __global float4 *vel, __glob
 
 __kernel void particle_update_flow(__global float4 *pos, __global float4 *vel, __global float4 *cursor, __global float *delta_t)
 {
-    float4 a;
-    float4 center = *cursor;
-    float4 tempCurrPos;
     const uint id = get_global_id(0);
     float4 vPos = pos[id];
+    float4 center = *cursor;
+    float weight = center.w;
+    center.w = 1.0f;
+    float4 delta = center - vPos;
+    float d = 1 / (dot(delta, delta) + 1000.f);
 
-    if(center.w < 0.0f){
-      // The direction of this vector corresponds to the direction of the gravity.
-      // A zero vector will freeze the particles when not interacted with them.
-      a = (float4){0,-0.125,0,0};
-    } else {
-      a = center - vPos - (float4){0,-1,0,0};
-      a = normalize(a) * 5 * length(vPos);
-    }
-    tempCurrPos  = 1.99f * vPos - 0.99f * vPos + a * 0.5f;
-    pos[id] = tempCurrPos;
+    vel[id] += d * normalize(delta);
+    vPos += vel[id];
+    pos[id] = vPos;
 }

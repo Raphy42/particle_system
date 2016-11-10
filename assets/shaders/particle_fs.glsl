@@ -7,5 +7,6 @@ out vec4 colour;
 
 
 void main() {
-	colour = (normalize(speed) - o_center) / 2;
+	colour =  normalize(speed);
+	colour = 1 - colour;
 }
