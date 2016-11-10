@@ -19,6 +19,7 @@ template <typename T>
 float mouse_x, mouse_y;
 bool stop = true, grab = false;
 float attractor = 12.f;
+bool switch_kernel = false;
 
 glm::vec4       get3DNDC(glm::mat4 view, glm::mat4 projection)
 {
@@ -115,6 +116,9 @@ int main(void)
                 case GLFW_KEY_A:
                     cam.keyboardEvent(FPSCamera::e_CameraMovement::RIGHT, .1f);
                     break;
+                case GLFW_KEY_R:
+                    switch_kernel = action == GLFW_PRESS == !switch_kernel;
+                    break;
                 case GLFW_KEY_SPACE:
                     stop = action == GLFW_PRESS == !stop;
                     break;
@@ -171,6 +175,14 @@ int main(void)
 
     while (!glfwWindowShouldClose(glfw.getWindow()))
     {
+        if (switch_kernel)
+        {
+            if (update == cl.getKernel("particle_update_flow"))
+                update = cl.getKernel("particle_update");
+            else
+                update = cl.getKernel("particle_update_flow");
+            switch_kernel = false;
+        }
         deltaTime = static_cast<float>(glfwGetTime());
         glm::mat4 view = glfw.getCamera().getViewMat4();
         glm::mat4 mvp = perspective * view * model;
