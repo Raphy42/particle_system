@@ -2,9 +2,8 @@
 1. OpenCL
 2. OpenGL
 3. GLFW3 (included)
-4. FreeType (currently unused and included)
-5. glm (install with `brew/apt-get/tg install glm`)
+4. glm (header only, install it with your favorite package manager)
 
 
 ##How to build ?
-`man clion`
+`cmake .`
