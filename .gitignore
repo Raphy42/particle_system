@@ -37,3 +37,5 @@
 *.iml
 out
 gen
+particle_system
+*.log
