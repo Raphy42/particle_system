@@ -9,8 +9,8 @@ include_directories(${OPENCL_INCLUDE_DIR})
 
 
 
-add_subdirectory(glfw-3.2.1)
-include_directories(glfw-3.2.1/include)
+add_subdirectory(glfw)
+include_directories(glfw/include)
 include_directories(nuklear)
 include_directories(~/.brew/include)
 

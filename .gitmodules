@@ -7,3 +7,6 @@
 [submodule "nuklear"]
 	path = nuklear
 	url = https://github.com/vurtun/nuklear.git
+[submodule "glfw"]
+	path = glfw
+	url = https://github.com/glfw/glfw
