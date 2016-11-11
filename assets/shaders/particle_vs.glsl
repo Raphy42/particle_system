@@ -7,9 +7,11 @@ layout (location = 1) in vec4 vel;
 
 uniform mat4 mvp;
 uniform vec4 center;
+uniform float delta_time;
 
 out vec4 speed;
 out vec4 o_center;
+out float delta_t;
 
 void main() {
     gl_Position = mvp * pos;
@@ -17,4 +19,5 @@ void main() {
     gl_PointSize = pos.w;
     speed = vel;
     o_center = pos - center;
+    delta_t = delta_time;
 }

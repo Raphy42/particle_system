@@ -9,7 +9,7 @@
 #include "opengl/GLFactory.h"
 #include <glm/gtc/type_ptr.hpp>
 
-#define PARTICLE_COUNT 1000000
+#define PARTICLE_COUNT 2000000
 template <typename T>
     constexpr T WIDTH = 2600;
 
@@ -77,11 +77,11 @@ int main(void)
     cl_mem vel = cl.CreateBufferFromVBO(vbos[1], CL_MEM_READ_WRITE);
     cl_mem delta = cl.CreateBuffer(sizeof(float), CL_MEM_READ_ONLY, nullptr);
 
-    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_sphere"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_cube"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
 
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
     size_t global_item_size = PARTICLE_COUNT;
-    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_sphere"), 1, nullptr,
+    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_cube"), 1, nullptr,
                                         &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
@@ -89,9 +89,11 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_PROGRAM_POINT_SIZE);
+//    glEnable(GL_MULTISAMPLE);
 
     GLint mvp_id = program.uniform("mvp");
     GLint center_id = program.uniform("center");
+    GLint delta_id = program.uniform("delta_time");
 
     glm::mat4 model;
     glm::mat4 perspective = glm::perspective(68.f, WIDTH<float> / HEIGHT<float>, 0.1f, 1000.f);
@@ -220,6 +222,7 @@ int main(void)
         program.bind();
         glUniformMatrix4fv(mvp_id, 1, GL_FALSE, glm::value_ptr(mvp));
         glUniform4fv(center_id, 1, glm::value_ptr(cursor));
+        glUniform1fv(delta_id, 1, &deltaTime);
         glBindVertexArray(buffer->_vao);
         glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
         glBindVertexArray(0);

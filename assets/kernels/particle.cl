@@ -68,15 +68,9 @@ __kernel void particle_update(__global float4 *pos, __global float4 *vel, __glob
     float weight = destPos.w;
     destPos.w = 1.0f;
 
-    vVel -= attraction(vPos, destPos) * 1 / weight;
+    vVel += attraction(vPos, destPos) * 12;
     vPos += vVel * *delta_t / 2.f; //DELTA HERE
-
-    if ((vPos.x < -bounds) || (vPos.x > bounds)
-        || (vPos.y < -bounds) || (vPos.y > bounds)
-        || (vPos.z < -bounds) || (vPos.z > bounds))
-        vVel = (-vVel * 0.1f) - repulsion(vPos, destPos) * weight;
-    else
-        pos[id] = vPos;
+    pos[id] = vPos;
     pos[id].w = 1.f;
     vel[id] = vVel;
 }
