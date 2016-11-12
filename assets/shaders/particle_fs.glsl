@@ -4,6 +4,7 @@ in vec4 speed;
 in vec4 o_center;
 in float delta_t;
 
+in vec4 color_cl;
 out vec4 colour;
 
 vec3 hsv2rgb(vec3 c)
@@ -25,6 +26,7 @@ vec3 rgb2hsv(vec3 c)
 }
 
 void main() {
-	colour = normalize(speed * delta_t);
-	colour = vec4(hsv2rgb(colour.xyz), 1.0f);
+//	colour = normalize(speed * delta_t);
+//    colour = vec4(1, 1, 1, 1);
+	colour = vec4(hsv2rgb(color_cl.xyz), 1.0f);
 }

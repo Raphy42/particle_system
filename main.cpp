@@ -9,7 +9,8 @@
 #include "opengl/GLFactory.h"
 #include <glm/gtc/type_ptr.hpp>
 
-#define PARTICLE_COUNT 2000000
+#define PARTICLE_COUNT 3000000
+
 template <typename T>
     constexpr T WIDTH = 2600;
 
@@ -40,8 +41,10 @@ int main(void)
     Proxy::OpenCL cl;
     cl.CreateKernelFromFile("./assets/kernels/particle.cl", "particle_init_sphere");
     cl.CreateKernelFromProgram("particle_init_cube");
+    cl.CreateKernelFromProgram("particle_init_cube_with_color");
     cl.CreateKernelFromProgram("particle_update");
     cl.CreateKernelFromProgram("particle_update_flow");
+    cl.CreateKernelFromProgram("particle_init_mandelbrot");
     OpenGL::Program program("./assets/shaders/particle_vs.glsl", "./assets/shaders/particle_fs.glsl");
 
     GLFactory factory;
@@ -50,21 +53,26 @@ int main(void)
     Buffer *buffer = new Buffer();
 
     glGenVertexArrays(1, &buffer->_vao);
-    GLuint vbos[2];
-    glGenBuffers(2, vbos);
+    GLuint vbos[3];
+    glGenBuffers(3, vbos);
 
     glBindVertexArray(buffer->_vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STREAM_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
 
     glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STREAM_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * PARTICLE_COUNT, nullptr, GL_STREAM_DRAW);
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 
@@ -76,13 +84,24 @@ int main(void)
     cl_mem cl_cursor = cl.CreateBuffer(sizeof(float) * 4, CL_MEM_READ_ONLY, nullptr);
     cl_mem vel = cl.CreateBufferFromVBO(vbos[1], CL_MEM_READ_WRITE);
     cl_mem delta = cl.CreateBuffer(sizeof(float), CL_MEM_READ_ONLY, nullptr);
+    cl_mem color = cl.CreateBufferFromVBO(vbos[2], CL_MEM_READ_WRITE);
 
-    cl.getStatus(clSetKernelArg(cl.getKernel("particle_init_cube"), 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+    cl_kernel init = cl.getKernel("particle_init_cube_with_color");
 
+    cl.getStatus(clSetKernelArg(init, 0, sizeof(cl_mem), (void *)&pos), "clSetKernelArg");
+
+    if (init != cl.getKernel("particle_init_sphere")) {
+        cl.getStatus(clSetKernelArg(init, 1, sizeof(cl_mem), (void *)&color), "clSetKernelArg");
+        cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &color, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
+    }
     cl.getStatus(clEnqueueAcquireGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueAcquireGLObjects");
+
     size_t global_item_size = PARTICLE_COUNT;
-    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), cl.getKernel("particle_init_cube"), 1, nullptr,
+    cl.getStatus(clEnqueueNDRangeKernel(cl.getQueue(), init, 1, nullptr,
                                         &global_item_size, nullptr, 0, nullptr, nullptr), "clEnqueueNDRangeKernel");
+    if (init != cl.getKernel("particle_init_sphere")) {
+        cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &color, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
+    }
     cl.getStatus(clEnqueueReleaseGLObjects(cl.getQueue(), 1, &pos, 0, nullptr, nullptr), "clEnqueueReleaseGLObjects");
 
     clFinish(cl.getQueue());

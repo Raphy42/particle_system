@@ -8,49 +8,6 @@
 #include "OpenCL.h"
 #include "../utils/FileLogger.h"
 
-#ifdef LEGACY_SALE//BEGIN LEGACY SALE
-#error "Y u do dis, never trust error messages"
-#if defined(__APPLE__) || defined(MAXOSX)
-CGLContextObj kCGLContext = CGLGetCurrentContext();
-CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(kCGLContext);
-
-cl_context_properties properties[] = {
-        CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE,
-        (cl_context_properties)kCGLShareGroup,
-        0
-};
-
-_context = clCreateContext(properties, 0, 0, NULL, 0, &_clStatus);
-OpenCL::getStatus(_clStatus, "clCreateContext");
-#elif defined(__linux__)
-cl_context_properties       properties[] = {
-                CL_GL_CONTEXT_KHR,   (cl_context_properties)glXGetCurrentContext(),
-                CL_GLX_DISPLAY_KHR,  (cl_context_properties)glXGetCurrentDisplay(),
-                CL_CONTEXT_PLATFORM, (cl_context_properties)_platforms[0],
-                0
-        };
-        cl_device_id devices[32];
-        size_t size;
-        clGetGLContextInfoKHR(properties, CL_DEVICES_FOR_GL_CONTEXT_KHR,
-            32 * sizeof(cl_device_id), devices, &size);
-        _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
-#else
-        cl_context_properties           properties[] = {
-                CL_GL_CONTEXT_KHR,      (cl_context_properties)wglGetCurrentContext(),
-                CL_WGL_HDC_KHR,         (cl_context_properties)wglGetCurrentDC(),
-                CL_CONTEXT_PLATFORM,    (cl_context_properties)_platforms[0],
-                0
-        };
-        cl_device_id devices[32];
-        size_t size;
-        clGetGLContextInfoKHR(properties, CL_DEVICES_FOR_GL_CONTEXT_KHR,
-            32 * sizeof(cl_device_id), devices, &size);
-        _context = clCreateContext(properties, devices, size / sizeof(cl_device_id), NULL, 0, 0);
-#endif
-_queue = clCreateCommandQueue(_context, _deviceList[0], 0, &_clStatus);
-OpenCL::getStatus(_clStatus, "clCreateCommandQueue");
-#endif //END LEGACY SALE
-
 static std::vector<std::string> cl_errors = {
         "CL_SUCCESS",
         "CL_DEVICE_NOT_FOUND",
